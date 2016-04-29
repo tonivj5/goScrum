@@ -1,6 +1,7 @@
    var Tarea = (function() {
        'use strict';
         var Tarea = function(nombre, descripcion, coste) {
+            this.id = "";
             this.nombre = nombre;
             this.descripcion = descripcion;
             this.coste = coste;
