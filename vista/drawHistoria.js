@@ -4,7 +4,7 @@ function drawHistoria(historiaUsuario){
                     domObject.setAttribute("class","historia");
                     domObject.setAttribute("id",historiaUsuario.id);
                     domObject.innerHTML = "<ul>"+
-                                                "<li>etiqueta = "+historiaUsuario.etiqueta+"</li>"+
+                                                "<li>nombre = "+historiaUsuario.nombre+"</li>"+
                                                 "<li>descripcion = "+historiaUsuario.descripcion+"</li>"+
                                                 "<li>valor = "+historiaUsuario.valor+"</li>"+
                                             "</ul>"+
