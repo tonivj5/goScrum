@@ -1,0 +1,5 @@
+- Métodos de borrado e insercición retornarán:
+ - true -> bien
+ - false -> Mal
+- Cuando se usen acrónimos o iniciales, en los métodos se pondrán en mayúsculas, por ejemplo:
+ - setID(), getDNI(), isIP(), etc.
