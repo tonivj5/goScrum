@@ -6,7 +6,9 @@
   padding: 10px; }
   #wrapper .contenedor {
     border: 1px solid black;
-    margin-left: auto; }
+    margin-left: auto;
+    width: 19%; }
   #wrapper #hechas {
     margin-right: auto; }
-/*# sourceMappingURL=Backlog.css.map */
+
+/*# sourceMappingURL=backlog.css.map */
