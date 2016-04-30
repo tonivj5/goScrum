@@ -9,6 +9,6 @@ function drawHistoria(historiaUsuario){
                                                 "<li>valor = "+historiaUsuario.valor+"</li>"+
                                             "</ul>"+
                                             "<button class='detalles'>Detalles</button>"+
-                                            "<button class='borrar'>Borrar</button>";
+                                            "<button id='btn-borrar-historia'>Borrar</button>";
                     return domObject;
                 }

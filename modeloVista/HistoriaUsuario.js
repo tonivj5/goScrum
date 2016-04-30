@@ -62,7 +62,13 @@ var HistoriaUsuario = (function(){
                     
                     return false;
                     
-                } 
+                },
+                
+                modificarHistoria: function(nombre,descripcion,valor){
+                    this.setNombre(nombre);
+                    this.setDescripcion(descripcion);
+                    this.setValor(valor);    
+                }
                
             }
             
