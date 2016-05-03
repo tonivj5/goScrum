@@ -6,6 +6,9 @@
  - Cuando un método actúe de varias maneras, se utilizará la notación get<Obj>By<Propiedad>
  - Cuando se usen acrónimos o iniciales, en los métodos se pondrán en mayúsculas, por ejemplo:
   - setID(), getDNI(), isIP(), etc.
+ - La notación estándar para todos los nombres será camelCase
+ - En CSS si un estilo se añade a un elemento cuando ocurre una acción se le dará nombre usando la notación: <suceso>When<Evento>, por ejemplo:
+  - backgroundWhenNewHistoria
 - Métodos de borrado e insercición retornarán:
  - true -> bien
  - false -> Mal
@@ -13,4 +16,6 @@
  - Toda la lógica de la aplicación se encuentra en el directorio ./app/{modelo, vistaModelo, vista}
  - Todos los elementos visuales (HTML y CSS) se encuentran en el direcotorio ./resources
  - ./index.html es quien arranca la aplicación
+- Cada clase o sección llevará un título creado con http://www.network-science.de/ascii/ (font: graffiti, stretch: yes, width: full)
+- Todos los ficheros deberán llevar una línea vacía al final de los mismos
  
