@@ -1,0 +1,7 @@
+{
+"version": 3,
+"mappings": "AAAA,QAAQ;EACJ,MAAM,EAAE,eAAe;EACvB,OAAO,EAAE,IAAI;EACb,WAAW,EAAE,IAAI;EACjB,YAAY,EAAE,IAAI;EAClB,OAAO,EAAE,IAAI;EAEb,oBAAW;IACP,MAAM,EAAE,eAAe;IACvB,WAAW,EAAE,IAAI;IACjB,KAAK,EAAE,GAAG;EAEd,gBAAO;IACH,YAAY,EAAE,IAAI",
+"sources": ["../sass/backlog.scss"],
+"names": [],
+"file": "backlog.css"
+}
