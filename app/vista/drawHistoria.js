@@ -9,6 +9,6 @@ function drawHistoria(historiaUsuario){
                                 "<li>valor = "+historiaUsuario.valor+"</li>"+
                             "</ul>"+
                             "<button class='detalles'>Detalles</button>"+
-                            "<button id='btnRemoveHistoria"+historiaUsuario.id+"'>Borrar</button>";
+                            "<button id='btnRemoveHistoria"+historiaUsuario.id+"' onclick='Backlog.eventos.removeHistoria(getElementById("+historiaUsuario.id+"))'>Borrar</button>";
     return domObject;
 }

@@ -78,6 +78,16 @@ var Backlog = (function() {
                 var divHistoria = drawHistoria(historia);
                 
                 divHistorias.appendChild(divHistoria);
+                
+                var formulario = document.getElementById("formNewHistoria");
+                var divFondo = document.getElementById("fondo");
+                formulario.setAttribute("class","hidden");
+                divFondo.setAttribute("class","hidden");
+            },
+            removeHistoria: function(e) {                
+                var divHistorias = document.getElementById("divHistoriasUsuario");
+                divHistorias.removeChild(e);
+            
             }
         }
     }
