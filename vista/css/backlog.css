@@ -1,0 +1,14 @@
+#wrapper {
+  border: 1px solid black;
+  display: flex;
+  margin-left: auto;
+  margin-right: auto;
+  padding: 10px; }
+  #wrapper .contenedor {
+    border: 1px solid black;
+    margin-left: auto;
+    width: 19%; }
+  #wrapper #hechas {
+    margin-right: auto; }
+
+/*# sourceMappingURL=backlog.css.map */
