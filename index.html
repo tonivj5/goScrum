@@ -4,12 +4,11 @@
         <meta charset="utf-8"/>
         <title>Backlog</title>
         <link rel="stylesheet" type="text/css" media="screen" href="resources/css/backlog.css"/>
-
     </head>
     
     <body>
         
-        <div class="hidden"></div>
+        <div class="hidden" id="fondo"></div>
         
         <button type="button" id="btnNewHistoria">Añadir Nueva Historia</button>
         <button type="button" id="btnChangeHistoria">Modificar Historia</button>
@@ -44,9 +43,11 @@
         </div>
 
     
-        <script type="text/javascript" src="../modeloVista/HistoriaUsuario.js"></script>
-        <script type="text/javascript" src="../vista/javaScript/drawHistoria.js"></script>
-        <script type="text/javascript" src="../modeloVista/Botones.js"></script>
+        <script type="text/javascript" src="app/modelo/HistoriaUsuario.js"></script>
+        <script type="text/javascript" src="app/modelo/Tarea.js"></script>
+        <script type="text/javascript" src="app/vista/drawHistoria.js"></script>
+        <script type="text/javascript" src="app/modeloVista/initViewBacklog.js"></script>
+        <script type="text/javascript" src="app/modeloVista/vmBacklog.js"></script>
         
       </body>
 </html>

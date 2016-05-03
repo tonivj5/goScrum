@@ -1,14 +1,27 @@
+/*
 __________                  __    .__                   
 \______   \_____     ____  |  | __|  |    ____    ____  
  |    |  _/\__  \  _/ ___\ |  |/ /|  |   /  _ \  / ___\ 
  |    |   \ / __ \_\  \___ |    < |  |__(  <_> )/ /_/  >
  |______  /(____  / \___  >|__|_ \|____/ \____/ \___  / 
         \/      \/      \/      \/             /_____/
+*/
 var Backlog = (function() {
     'use strict';
     
-    Backlog = {
-        historias: [],
+    return {
+        init: function() {
+            this.historias = [];
+            var boton = document.getElementById("btnNewHistoria");
+
+            boton.addEventListener("click", this.eventos.newHistoria);
+
+            boton = document.getElementById("btnAddHistoria");
+            
+            boton.addEventListener("click", this.eventos.addHistoria);
+
+            
+        },
         getHistoriaByID: function(id) {
             for(var i = 0; i < this.historias.length; i++)
                 if(this.historias[i].getID() == id)
@@ -42,9 +55,34 @@ var Backlog = (function() {
         callbacks: {
             addHistoria: function(historia) {
                 var divHistoria = drawHistoria(historia);
-                var divBacklog = document.getElementById("backlog");
+                var divBacklog = document.getElementById("divHistoriasUsuario");
                 divBacklog.appendChild(divHistoria);
+            }
+        },
+        eventos: {
+            newHistoria: function() {
+                var formulario = document.getElementById("formNewHistoria");
+                var divFondo = document.getElementById("fondo");
+                formulario.setAttribute("class","drawFormWhenNewHistoria");
+                divFondo.setAttribute("class","drawBackgroundWhenNewHistoria");
+            },
+            addHistoria: function() {
+                var divHistorias = document.getElementById("divHistoriasUsuario");
+                var txtNombre = document.getElementById("txtNombre").value,
+                    txtCoste = document.getElementById("txtCoste").value,
+                    txtValor = document.getElementById("txtValor").value,
+                    txtDesc = document.getElementById("txtDesc").value;
+                
+                var historia = new HistoriaUsuario(txtNombre, txtDesc, txtValor);
+                historia.setID(10);
+                var divHistoria = drawHistoria(historia);
+                
+                divHistorias.appendChild(divHistoria);
             }
         }
     }
 })();
+
+Backlog.init();
+
+console.log(Backlog);

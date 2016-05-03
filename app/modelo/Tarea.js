@@ -1,9 +1,11 @@
+/*
 ___________                               
 \__    ___/_____  _______   ____  _____   
   |    |   \__  \ \_  __ \_/ __ \ \__  \  
   |    |    / __ \_|  | \/\  ___/  / __ \_
   |____|   (____  /|__|    \___  >(____  /
                 \/             \/      \/ 
+*/
 var Tarea = (function() {
     'use strict';
     var Tarea = function(id, nombre, descripcion, coste) {
