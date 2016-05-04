@@ -86,10 +86,9 @@ var Backlog = (function() {
                 divFondo.setAttribute("class","hidden");
             },
             removeHistoria: function(historia) {  
-                console.log(historia);
                 var divHistorias = document.getElementById("divHistoriasUsuario");
+                Backlog.removeHistoria(historia.getAttribute("id").substr(2));
                 divHistorias.removeChild(historia);
-            
             }
         }
     }
