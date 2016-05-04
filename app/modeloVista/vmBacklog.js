@@ -74,9 +74,10 @@ var Backlog = (function() {
                     txtDesc = document.getElementById("txtDesc").value;
                 
                 var historia = new HistoriaUsuario(txtNombre, txtDesc, txtValor);
-                historia.setID(10);
-                var divHistoria = drawHistoria(historia);
+                historia.setID(Backlog.historias.length);
+                Backlog.historias.push(historia);
                 
+                var divHistoria = drawHistoria(historia);
                 divHistorias.appendChild(divHistoria);
                 
                 var formulario = document.getElementById("formNewHistoria");
@@ -84,9 +85,10 @@ var Backlog = (function() {
                 formulario.setAttribute("class","hidden");
                 divFondo.setAttribute("class","hidden");
             },
-            removeHistoria: function(e) {                
+            removeHistoria: function(historia) {  
+                console.log(historia);
                 var divHistorias = document.getElementById("divHistoriasUsuario");
-                divHistorias.removeChild(e);
+                divHistorias.removeChild(historia);
             
             }
         }

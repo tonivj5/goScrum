@@ -1,14 +1,15 @@
 
 function drawHistoria(historiaUsuario){
+    var id = "HU"+historiaUsuario.getID();
     var domObject = document.createElement("div");
     domObject.setAttribute("class", "historia");
-    domObject.setAttribute("id", historiaUsuario.id);
+    domObject.setAttribute("id", id);
     domObject.innerHTML = "<ul>"+
-                                "<li>nombre = "+historiaUsuario.nombre+"</li>"+
-                                "<li>descripcion = "+historiaUsuario.descripcion+"</li>"+
-                                "<li>valor = "+historiaUsuario.valor+"</li>"+
+                                "<li>nombre = "+historiaUsuario.getNombre()+"</li>"+
+                                "<li>descripcion = "+historiaUsuario.getDescripcion()+"</li>"+
+                                "<li>valor = "+historiaUsuario.getValor()+"</li>"+
                             "</ul>"+
                             "<button class='detalles'>Detalles</button>"+
-                            "<button id='btnRemoveHistoria"+historiaUsuario.id+"' onclick='Backlog.eventos.removeHistoria(getElementById("+historiaUsuario.id+"))'>Borrar</button>";
+                            "<button id='btnRemoveHistoria"+historiaUsuario.getID()+"' onclick='Backlog.eventos.removeHistoria(getElementById(\""+id+"\"))'>Borrar</button>";
     return domObject;
 }
