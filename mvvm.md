@@ -1,0 +1,3 @@
+- V -> Pintar cosas
+- MV -> Tener las cosas que se han pintado aunque no cómo se han pintado.
+- M -> Donde se trae 
