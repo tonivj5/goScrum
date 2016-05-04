@@ -8,20 +8,22 @@ ___  _|__| ______  _  _\______   \_____    ____ |  | _|  |   ____   ____
 */
 var vBacklog = (function() {
     'use strict';
+    
     return {
         init: function() {
             var btnNewHistoria = document.getElementById("btnNewHistoria");
-            btnNewHistoria.addEventListener("click", this.eventos.newHistoria);
+            btnNewHistoria.addEventListener("click", vBacklog.acciones.showFormNewHistoria);
             var btnAddHistoria = document.getElementById("btnAddHistoria");
-            btnAddHistoria.addEventListener("click", this.eventos.addHistoria);
+            btnAddHistoria.addEventListener("click", bBacklog.eventos.addHistoria);
+            console.log("Vista rulando");
         },
         acciones: {
             addHistoria: function(historia) {
-                historia.setID(Backlog.historias.length);
-                Backlog.historias.push(historia);
+                var divHistorias = document.getElementById("divHistoriasUsuario");
                 
-                var divHistoria = drawHistoria(historia);
-                divHistorias.appendChild(divHistoria);
+                var nodeHistoria = vBacklog.acciones.drawHistoria(historia);
+                console.log(nodeHistoria);
+                divHistorias.appendChild(nodeHistoria);
                 
                 var formulario = document.getElementById("formNewHistoria");
                 var divFondo = document.getElementById("fondo");
@@ -39,9 +41,9 @@ var vBacklog = (function() {
                 
                 return historia;
             },
-            removeHistoria: function(divHistoria) {
+            removeHistoria: function(nodeHistoria) {
                 var divHistorias = document.getElementById("divHistoriasUsuario");
-                divHistorias.removeChild(historia);
+                divHistorias.removeChild(nodeHistoria);
             },
             drawHistoria: function drawHistoria(historia){
                 var id = "HU"+historia.getID();
@@ -49,14 +51,27 @@ var vBacklog = (function() {
                 domObject.setAttribute("class", "historia");
                 domObject.setAttribute("id", id);
                 domObject.innerHTML = "<ul>"+
-                                            "<li>nombre = "+historia.getNombre()+"</li>"+
-                                            "<li>descripcion = "+historia.getDescripcion()+"</li>"+
-                                            "<li>valor = "+historia.getValor()+"</li>"+
+                                            "<li class='nombreHU'>nombre = "+historia.getNombre()+"</li>"+
+                                            "<li class='descripcionHU'>descripcion = "+historia.getDescripcion()+"</li>"+
+                                            "<li class='valorHU'>valor = "+historia.getValor()+"</li>"+
                                         "</ul>"+
                                         "<button class='detalles'>Detalles</button>"+
-                                        "<button id='btnRemoveHU"+historia.getID()+"' onclick='Backlog.eventos.removeHistoria(this.parentNode)'>Borrar</button>";
+                                        "<button id='btnRemoveHU"+historia.getID()+"' onclick='bBacklog.eventos.removeHistoria(this.parentNode)'>Borrar</button>";
                 return domObject;
+            },
+            showFormNewHistoria: function() {
+                var formulario = document.getElementById("formNewHistoria");
+                var divFondo = document.getElementById("fondo");
+                formulario.setAttribute("class","drawFormWhenNewHistoria");
+                divFondo.setAttribute("class","drawBackgroundWhenNewHistoria");
+            },
+            getHistoriaFromNode: function(nodeHistoria) {
+                var nombre = nodeHistoria.getElementsByClassName("nombreHU")[0],
+                    descripcion = nodeHistoria.getElementsByClassName("descripcionHU")[0],
+                    valor = nodeHistoria.getElementsByClassName("valorHU")[0];
+                
+                return new HistoriaUsuario(nombre, descripcion, valor);
             }
         }
-    }
-});
+    };
+})();
