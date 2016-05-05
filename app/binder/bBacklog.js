@@ -24,6 +24,16 @@ var bBacklog = (function() {
                 // Al no tener ID no se puede eliminar
                 vmBacklog.removeHistoria(historia);
                 vBacklog.acciones.removeHistoria(nodeHistoria);
+            },
+            showFormUpdateHistoria: function(nodeHistoria){
+                console.log("he llegado al binder");
+                vBacklog.acciones.showFormUpdateHistoria(nodeHistoria);
+            },
+            updateHistoria: function(nodeHistoria) {
+                console.log("he llegado al update del binder");
+                var historia = vBacklog.acciones.getHistoriaFromNode(nodeHistoria);
+                vmBacklog.updateHistoria(historia);
+                vBacklog.acciones.updateHistoria(nodeHistoria);
             }
         }
     }
