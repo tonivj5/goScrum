@@ -25,15 +25,11 @@ var bBacklog = (function() {
                 vmBacklog.removeHistoria(historia);
                 vBacklog.acciones.removeHistoria(nodeHistoria);
             },
-            showFormUpdateHistoria: function(nodeHistoria){
-                console.log("he llegado al binder");
-                vBacklog.acciones.showFormUpdateHistoria(nodeHistoria);
-            },
-            updateHistoria: function(nodeHistoria) {
+            updateHistoria: function(id,nombre,descripcion,valor,coste) {
                 console.log("he llegado al update del binder");
-                var historia = vBacklog.acciones.getHistoriaFromNode(nodeHistoria);
-                vmBacklog.updateHistoria(historia);
-                vBacklog.acciones.updateHistoria(nodeHistoria);
+               
+                vmBacklog.updateHistoria(id,nombre,descripcion,valor,coste);
+                vBacklog.acciones.updateHistoria(id);
             }
         }
     }

@@ -39,14 +39,15 @@ var vmBacklog = (function() {
             
             return false;
         },
-        updateHistoria: function(historia){
+        updateHistoria: function(id,nombre,descripcion,valor,coste){
             console.log("estoy en vmBacklog updateHistoria");
+            console.log(this.historias);
             for(var i = 0; i < this.historias.length; i++)
-                if(this.historias[i].getID() == historia.getID()) {
-                    this.historias[i].setNombre(historia.getNombre());
-                    this.historias[i].setValor(historia.getValor());
-                    this.historias[i].setCoste(historia.getCoste());
-                    this.historias[i].setDescripcion(historia.getDescripcion());
+                if(this.historias[i].getID() == id) {
+                    this.historias[i].setNombre(nombre);
+                    this.historias[i].setValor(valor);
+                    this.historias[i].setCoste(coste);
+                    this.historias[i].setDescripcion(descripcion);
                     
                     return true;
                 }

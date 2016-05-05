@@ -43,13 +43,20 @@ var vBacklog = (function() {
                 var divHistorias = document.getElementById("divHistoriasUsuario");
                 divHistorias.removeChild(nodeHistoria);
             },
-            updateHistoria: function(nodeHistoria){
+            updateHistoria: function(id){
                 console.log("estoy en vBacklog updateHistoria");
                 var historia = vBacklog.acciones.getHistoriaFromForm();
+                var nodeHistoria = document.getElementById("HU"+id);
+                                                           
                 nodeHistoria.getElementsByClassName("nombreHU")[0].innerHTML = historia.getNombre();
                 nodeHistoria.getElementsByClassName("descripcionHU")[0].innerHTML = historia.getDescripcion();
                 nodeHistoria.getElementsByClassName("valorHU")[0].innerHTML = historia.getValor();
                 nodeHistoria.getElementsByClassName("costeHU")[0].innerHTML = historia.getCoste();
+                
+                var formulario = document.getElementById("formNewHistoria");
+                var divFondo = document.getElementById("fondo");
+                formulario.setAttribute("class","hidden");
+                divFondo.setAttribute("class","hidden");
             },
             drawHistoria: function drawHistoria(historia){
                 var id = "HU"+historia.getID();
@@ -62,42 +69,49 @@ var vBacklog = (function() {
                                             "<li class='valorHU'>valor = "+historia.getValor()+"</li>"+
                                             "<li class='costeHU'>coste = "+historia.getCoste()+"</li>"+
                                         "</ul>"+
-                                        "<button id='btnUpdateHU"+historia.getID()+"' onclick='bBacklog.eventos.showFormUpdateHistoria(this.parentNode)'>Modificar</button>"+
+                                        "<button id='btnUpdateHU"+historia.getID()+"' onclick='vBacklog.acciones.showFormUpdateHistoria(this.parentNode)'>Modificar</button>"+
                                         "<button id='btnRemoveHU"+historia.getID()+"' onclick='bBacklog.eventos.removeHistoria(this.parentNode)'>Borrar</button>";
                 return domObject;
             },
             showFormNewHistoria: function() {
                 var btnApply = document.getElementById("btnApply");
-                btnApply.removeEventListener("click", bBacklog.eventos.updateHistoria);
-                btnApply.addEventListener("click", bBacklog.eventos.addHistoria);
                 var formulario = document.getElementById("formNewHistoria");
                 var divFondo = document.getElementById("fondo");
+                
+                btnApply.setAttribute("onClick", "");
+                btnApply.addEventListener("click", bBacklog.eventos.addHistoria);
                 formulario.setAttribute("class","drawFormWhenNewHistoria");
                 divFondo.setAttribute("class","drawBackgroundWhenNewHistoria");
             },
             showFormUpdateHistoria:function(nodeHistoria){
-                console.log("he llegado show form");
+                console.log("he llegado show form en vBaclog");
+                
                 var btnApply = document.getElementById("btnApply");
-                btnApply.removeEventListener("click", bBacklog.eventos.addHistoria);
-                btnApply.addEventListener("click", bBacklog.eventos.updateHistoria(nodeHistoria));
                 var formulario = document.getElementById("formNewHistoria");
                 var divFondo = document.getElementById("fondo");
+                var id = nodeHistoria.getAttribute("id").substring(2),
+                    nombre = nodeHistoria.getElementsByClassName("nombreHU")[0].value,
+                    descripcion = nodeHistoria.getElementsByClassName("descripcionHU")[0].value,
+                    valor = nodeHistoria.getElementsByClassName("valorHU")[0].value,
+                    coste = nodeHistoria.getElementsByClassName("costeHU")[0].value;
+                
+                btnApply.removeEventListener("click", bBacklog.eventos.addHistoria);
+                btnApply.setAttribute("onClick", "bBacklog.eventos.updateHistoria("+id+","+nombre+","+descripcion+","+valor+","+coste+")");
                 formulario.setAttribute("class","drawFormWhenNewHistoria");
                 divFondo.setAttribute("class","drawBackgroundWhenNewHistoria");
-                  
+                
                 document.getElementById("txtNombre").innerHTML = nodeHistoria.getElementsByClassName("nombreHU")[0].value;
                 document.getElementById("txtCoste").innerHTML = nodeHistoria.getElementsByClassName("descripcionHU")[0].value;
                 document.getElementById("txtValor").innerHTML = nodeHistoria.getElementsByClassName("valorHU")[0].value;
                 document.getElementById("txtDesc").innerHTML = nodeHistoria.getElementsByClassName("costeHU")[0].value;
                 
-                
             },
             getHistoriaFromNode: function(nodeHistoria) {
                 var id = nodeHistoria.getAttribute("id").substring(2),
-                    nombre = nodeHistoria.getElementsByClassName("nombreHU")[0],
-                    descripcion = nodeHistoria.getElementsByClassName("descripcionHU")[0],
-                    valor = nodeHistoria.getElementsByClassName("valorHU")[0],
-                    coste = nodeHistoria.getElementsByClassName("costeHU")[0];
+                    nombre = nodeHistoria.getElementsByClassName("nombreHU")[0].value,
+                    descripcion = nodeHistoria.getElementsByClassName("descripcionHU")[0].value,
+                    valor = nodeHistoria.getElementsByClassName("valorHU")[0].value,
+                    coste = nodeHistoria.getElementsByClassName("costeHU")[0].value;
                 
                 console.log("ID de la historia eliminada: " + id);
                 
