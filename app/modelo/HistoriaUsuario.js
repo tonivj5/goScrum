@@ -9,8 +9,8 @@
 var HistoriaUsuario = (function(){
     'use strict';
 
-    var HistoriaUsuario =  function(nombre,descripcion,valor){
-        this.id = "";
+    var HistoriaUsuario =  function(id, nombre,descripcion,valor){
+        this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.valor = valor;

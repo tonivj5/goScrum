@@ -7,7 +7,7 @@ ___  _|__| ______  _  __/     \   ____   __| _/____ |  |\______   \_____    ____
               \/              \/            \/    \/            \/      \/     \/     \/          /_____/  
 
 */
-var Backlog = (function() {
+var vmBacklog = (function() {
     'use strict';
     
     return {
@@ -29,9 +29,10 @@ var Backlog = (function() {
             this.historias[pos] = historia;
             historia.setID(pos);
         },
-        removeHistoria: function(id) {
+        removeHistoria: function(historia) {
             for(var i = 0; i < this.historias.length; i++)
-                if(this.historias[i].getID() == id) {
+                if(this.historias[i].getID() == historia.getID()) {
+                    
                     this.historias.splice(i, 1);
                     return true;
                 }
@@ -44,20 +45,6 @@ var Backlog = (function() {
         getCallback: function(callbackName) {
             return this.callbacks[callbackName];
         },
-        callbacks: {},
-        eventos: {
-            addHistoria: function() {
-                var historia = vBacklog.acciones.getHistoriaFromForm();
-
-                Backlog.addHistoria(historia);
-                historia.setID(Backlog.historias.length);
-                
-                vBacklog.acciones.addHistoria(historia);
-            },
-            removeHistoria: function(historia) {  
-                console.log(Backlog.removeHistoria(historia.getAttribute("id").substr(2)));
-                vBacklog.acciones.removeHistoria(historia);
-            }
-        }
+        callbacks: {}
     }
 })();

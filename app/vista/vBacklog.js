@@ -37,7 +37,7 @@ var vBacklog = (function() {
                     txtValor = document.getElementById("txtValor").value,
                     txtDesc = document.getElementById("txtDesc").value;
                 
-                var historia = new HistoriaUsuario(txtNombre, txtDesc, txtValor);
+                var historia = new HistoriaUsuario(null, txtNombre, txtDesc, txtValor);
                 
                 return historia;
             },
@@ -66,11 +66,14 @@ var vBacklog = (function() {
                 divFondo.setAttribute("class","drawBackgroundWhenNewHistoria");
             },
             getHistoriaFromNode: function(nodeHistoria) {
-                var nombre = nodeHistoria.getElementsByClassName("nombreHU")[0],
+                var id = nodeHistoria.getAttribute("id").substring(2),
+                    nombre = nodeHistoria.getElementsByClassName("nombreHU")[0],
                     descripcion = nodeHistoria.getElementsByClassName("descripcionHU")[0],
                     valor = nodeHistoria.getElementsByClassName("valorHU")[0];
                 
-                return new HistoriaUsuario(nombre, descripcion, valor);
+                console.log("ID de la historia eliminada: " + id);
+                
+                return new HistoriaUsuario(id, nombre, descripcion, valor);
             }
         }
     };
