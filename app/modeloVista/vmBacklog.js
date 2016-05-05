@@ -28,6 +28,7 @@ var vmBacklog = (function() {
             var pos = this.historias.length;
             this.historias[pos] = historia;
             historia.setID(pos);
+            console.log(this.historias);
         },
         removeHistoria: function(historia) {
             for(var i = 0; i < this.historias.length; i++)
@@ -40,19 +41,14 @@ var vmBacklog = (function() {
             return false;
         },
         updateHistoria: function(historia){
-            console.log("estoy en vmBacklog updateHistoria");
             for(var i = 0; i < this.historias.length; i++)
                 if(this.historias[i].getID() == historia.getID()) {
-                    this.historias[i].setNombre(historia.getNombre());
-                    this.historias[i].setValor(historia.getValor());
-                    this.historias[i].setCoste(historia.getCoste());
-                    this.historias[i].setDescripcion(historia.getDescripcion());
                     
+                    this.historias[i]=historia;
                     return true;
                 }
-            
+             
             return false;
-            
         },
         setCallback: function(callbackName, funcion) {
             this.callbacks[callbackName] = funcion;

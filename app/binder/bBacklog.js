@@ -25,13 +25,16 @@ var bBacklog = (function() {
                 vmBacklog.removeHistoria(historia);
                 vBacklog.acciones.removeHistoria(nodeHistoria);
             },
-            showFormUpdateHistoria: function(nodeHistoria){
-                console.log("he llegado al binder");
-                vBacklog.acciones.showFormUpdateHistoria(nodeHistoria);
-            },
-            updateHistoria: function(nodeHistoria) {
-                console.log("he llegado al update del binder");
-                var historia = vBacklog.acciones.getHistoriaFromNode(nodeHistoria);
+            updateHistoria: function() {                
+                var id = document.getElementById("txtID").value,
+                    nombre = document.getElementById("txtNombre").value,
+                    coste = document.getElementById("txtCoste").value,
+                    valor = document.getElementById("txtValor").value,
+                    descripcion = document.getElementById("txtDesc").value;
+                
+                var historia = new HistoriaUsuario(id,nombre,descripcion,valor,coste);
+                var nodeHistoria = vBacklog.acciones.drawHistoria(historia);
+    
                 vmBacklog.updateHistoria(historia);
                 vBacklog.acciones.updateHistoria(nodeHistoria);
             }
