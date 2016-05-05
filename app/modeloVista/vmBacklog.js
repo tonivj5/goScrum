@@ -39,6 +39,21 @@ var vmBacklog = (function() {
             
             return false;
         },
+        updateHistoria: function(historia){
+            console.log("estoy en vmBacklog updateHistoria");
+            for(var i = 0; i < this.historias.length; i++)
+                if(this.historias[i].getID() == historia.getID()) {
+                    this.historias[i].setNombre(historia.getNombre());
+                    this.historias[i].setValor(historia.getValor());
+                    this.historias[i].setCoste(historia.getCoste());
+                    this.historias[i].setDescripcion(historia.getDescripcion());
+                    
+                    return true;
+                }
+            
+            return false;
+            
+        },
         setCallback: function(callbackName, funcion) {
             this.callbacks[callbackName] = funcion;
         },

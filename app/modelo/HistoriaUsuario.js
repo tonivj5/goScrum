@@ -9,11 +9,12 @@
 var HistoriaUsuario = (function(){
     'use strict';
 
-    var HistoriaUsuario = function(id, nombre, descripcion, valor){
+    var HistoriaUsuario =  function(id, nombre,descripcion,valor,coste){
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.valor = valor;
+        this.coste = coste;
         this.tareas = [];
     };
 
@@ -33,6 +34,9 @@ var HistoriaUsuario = (function(){
 
         getValor: function(){
             return this.valor;
+        },
+        getCoste: function(){
+            return this.coste;
         },
 
         getTareas: function(){
@@ -54,6 +58,9 @@ var HistoriaUsuario = (function(){
         setValor: function(valor){
             this.valor=valor;
         },
+        setCoste: function(coste){
+            this.coste=coste;
+        },
 
         addTarea: function(tarea){
             this.tareas.push(tarea);
@@ -69,12 +76,6 @@ var HistoriaUsuario = (function(){
             }
 
             return false;
-        },
-
-        modificarHistoria: function(nombre,descripcion,valor){
-            this.setNombre(nombre);
-            this.setDescripcion(descripcion);
-            this.setValor(valor);    
         }
 
     }
