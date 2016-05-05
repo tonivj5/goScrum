@@ -9,7 +9,7 @@
 var HistoriaUsuario = (function(){
     'use strict';
 
-    var HistoriaUsuario =  function(id, nombre,descripcion,valor){
+    var HistoriaUsuario = function(id, nombre, descripcion, valor){
         this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
@@ -69,7 +69,6 @@ var HistoriaUsuario = (function(){
             }
 
             return false;
-
         },
 
         modificarHistoria: function(nombre,descripcion,valor){
