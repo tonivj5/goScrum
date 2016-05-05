@@ -17,26 +17,26 @@ var bBacklog = (function() {
                 var historia = vBacklog.acciones.getHistoriaFromForm();
                 vmBacklog.addHistoria(historia);
                 vBacklog.acciones.addHistoria(historia);
+                vBacklog.acciones.hideForm();
             },
             removeHistoria: function(nodeHistoria) {
-                // No settea el ID
                 var historia = vBacklog.acciones.getHistoriaFromNode(nodeHistoria);
-                // Al no tener ID no se puede eliminar
                 vmBacklog.removeHistoria(historia);
                 vBacklog.acciones.removeHistoria(nodeHistoria);
             },
-            updateHistoria: function() {                
-                var id = document.getElementById("txtID").value,
-                    nombre = document.getElementById("txtNombre").value,
-                    coste = document.getElementById("txtCoste").value,
-                    valor = document.getElementById("txtValor").value,
-                    descripcion = document.getElementById("txtDesc").value;
-                
-                var historia = new HistoriaUsuario(id,nombre,descripcion,valor,coste);
-                var nodeHistoria = vBacklog.acciones.drawHistoria(historia);
-    
+            updateHistoria: function(nodeHistoria) {
+                var id = nodeHistoria.querySelector("#txtID").textContent,
+                    nombre = nodeHistoria.querySelector("#txtNombre").value,
+                    coste = nodeHistoria.querySelector("#txtCoste").value,
+                    valor = nodeHistoria.querySelector("#txtValor").value,
+                    descripcion = nodeHistoria.querySelector("#txtDesc").value;
+
+                var historia = new HistoriaUsuario(id, nombre, descripcion, valor, coste);
+                var newNodeHistoria = vBacklog.acciones.drawHistoria(historia);
+
                 vmBacklog.updateHistoria(historia);
-                vBacklog.acciones.updateHistoria(nodeHistoria);
+                vBacklog.acciones.updateHistoria(newNodeHistoria);
+                vBacklog.acciones.hideForm();
             }
         }
     }

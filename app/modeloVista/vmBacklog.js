@@ -33,7 +33,6 @@ var vmBacklog = (function() {
         removeHistoria: function(historia) {
             for(var i = 0; i < this.historias.length; i++)
                 if(this.historias[i].getID() == historia.getID()) {
-                    
                     this.historias.splice(i, 1);
                     return true;
                 }
@@ -43,7 +42,6 @@ var vmBacklog = (function() {
         updateHistoria: function(historia){
             for(var i = 0; i < this.historias.length; i++)
                 if(this.historias[i].getID() == historia.getID()) {
-                    
                     this.historias[i]=historia;
                     return true;
                 }
