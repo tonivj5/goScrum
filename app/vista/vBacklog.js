@@ -43,16 +43,12 @@ var vBacklog = (function() {
                 var divHistorias = document.getElementById("divHistoriasUsuario");
                 divHistorias.removeChild(nodeHistoria);
             },
-            updateHistoria: function(id){
-                console.log("estoy en vBacklog updateHistoria");
-                var historia = vBacklog.acciones.getHistoriaFromForm();
-                var nodeHistoria = document.getElementById("HU"+id);
-                                                           
-                nodeHistoria.getElementsByClassName("nombreHU")[0].innerHTML = historia.getNombre();
-                nodeHistoria.getElementsByClassName("descripcionHU")[0].innerHTML = historia.getDescripcion();
-                nodeHistoria.getElementsByClassName("valorHU")[0].innerHTML = historia.getValor();
-                nodeHistoria.getElementsByClassName("costeHU")[0].innerHTML = historia.getCoste();
-                
+            updateHistoria: function(nodeNewHistoria){
+                var id = nodeNewHistoria.getAttribute("id").substr(2);
+                var nodeOldHistoria = document.getElementById("HU"+id);
+                var padre = nodeOldHistoria.parentNode;
+                padre.replaceChild(nodeNewHistoria,nodeOldHistoria)
+                                
                 var formulario = document.getElementById("formNewHistoria");
                 var divFondo = document.getElementById("fondo");
                 formulario.setAttribute("class","hidden");
@@ -84,19 +80,13 @@ var vBacklog = (function() {
                 divFondo.setAttribute("class","drawBackgroundWhenNewHistoria");
             },
             showFormUpdateHistoria:function(nodeHistoria){
-                console.log("he llegado show form en vBaclog");
-                
                 var btnApply = document.getElementById("btnApply");
                 var formulario = document.getElementById("formNewHistoria");
                 var divFondo = document.getElementById("fondo");
-                var id = nodeHistoria.getAttribute("id").substring(2),
-                    nombre = nodeHistoria.getElementsByClassName("nombreHU")[0].value,
-                    descripcion = nodeHistoria.getElementsByClassName("descripcionHU")[0].value,
-                    valor = nodeHistoria.getElementsByClassName("valorHU")[0].value,
-                    coste = nodeHistoria.getElementsByClassName("costeHU")[0].value;
+                document.getElementById("txtID").innerHTML = nodeHistoria.getAttribute("id").substr(2);
                 
                 btnApply.removeEventListener("click", bBacklog.eventos.addHistoria);
-                btnApply.setAttribute("onClick", "bBacklog.eventos.updateHistoria("+id+","+nombre+","+descripcion+","+valor+","+coste+")");
+                btnApply.setAttribute("onClick", "bBacklog.eventos.updateHistoria(this.parentNode.parentNode)");
                 formulario.setAttribute("class","drawFormWhenNewHistoria");
                 divFondo.setAttribute("class","drawBackgroundWhenNewHistoria");
                 
