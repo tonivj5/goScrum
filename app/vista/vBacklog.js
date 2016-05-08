@@ -50,10 +50,10 @@ var vBacklog = (function() {
                 domObject.setAttribute("class", "historia");
                 domObject.setAttribute("id", id);
                 domObject.innerHTML = "<ul>"+
-                                            "<li class='nombreHU'>nombre = "+historia.getNombre()+"</li>"+
-                                            "<li class='descripcionHU'>descripcion = "+historia.getDescripcion()+"</li>"+
-                                            "<li class='valorHU'>valor = "+historia.getValor()+"</li>"+
-                                            "<li class='costeHU'>coste = "+historia.getCoste()+"</li>"+
+                                            "<li>nombre = <span class='nombreHU'>"+historia.getNombre()+"</span></li>"+
+                                            "<li>descripcion = <span class='descripcionHU'>"+historia.getDescripcion()+"</span></li>"+
+                                            "<li>valor = <span class='valorHU'>"+historia.getValor()+"</span></li>"+
+                                            "<li>coste = <span class='costeHU'>"+historia.getCoste()+"</span></li>"+
                                         "</ul>"+
                                         "<button id='btnUpdateHU"+historia.getID()+"' onclick='vBacklog.acciones.showFormUpdateHistoria(this.parentNode)'>Modificar</button>"+
                                         "<button id='btnRemoveHU"+historia.getID()+"' onclick='bBacklog.eventos.removeHistoria(this.parentNode)'>Borrar</button>";
@@ -78,12 +78,12 @@ var vBacklog = (function() {
                 btnApply.removeEventListener("click", bBacklog.eventos.addHistoria);
                 btnApply.setAttribute("onclick", "bBacklog.eventos.updateHistoria(this.parentNode)");
                 formulario.setAttribute("class","drawFormWhenNewHistoria");
-                divFondo.setAttribute("class","drawBackgroundWhenNewHistoria");
-                
-                document.getElementById("txtNombre").innerHTML = nodeHistoria.getElementsByClassName("nombreHU")[0].value;
-                document.getElementById("txtCoste").innerHTML = nodeHistoria.getElementsByClassName("descripcionHU")[0].value;
-                document.getElementById("txtValor").innerHTML = nodeHistoria.getElementsByClassName("valorHU")[0].value;
-                document.getElementById("txtDesc").innerHTML = nodeHistoria.getElementsByClassName("costeHU")[0].value;
+                divFondo.setAttribute("class","drawBackgroundWhenNewHistoria");          
+               
+                document.getElementById("txtNombre").value = nodeHistoria.getElementsByClassName("nombreHU")[0].innerHTML;
+                document.getElementById("txtCoste").value = nodeHistoria.getElementsByClassName("costeHU")[0].innerHTML;
+                document.getElementById("txtValor").value = nodeHistoria.getElementsByClassName("valorHU")[0].innerHTML;
+                document.getElementById("txtDesc").value = nodeHistoria.getElementsByClassName("descripcionHU")[0].innerHTML;
                 
             },
             getHistoriaFromNode: function(nodeHistoria) {
