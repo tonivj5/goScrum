@@ -24,18 +24,20 @@ var bBacklog = (function() {
                 vmBacklog.removeHistoria(historia);
                 vBacklog.acciones.removeHistoria(nodeHistoria);
             },
-            updateHistoria: function(nodeHistoria) {
-                var id = nodeHistoria.querySelector("#txtID").textContent,
-                    nombre = nodeHistoria.querySelector("#txtNombre").value,
+            updateHistoria: function(nodeHistoria,oldnodeHistoria) {
+                
+                var oldId = oldnodeHistoria.getAttribute("id");
+                
+                var id = nodeHistoria.querySelector("#txtNombre").value,
                     coste = nodeHistoria.querySelector("#txtCoste").value,
                     valor = nodeHistoria.querySelector("#txtValor").value,
                     descripcion = nodeHistoria.querySelector("#txtDesc").value;
 
-                var historia = new HistoriaUsuario(id, nombre, descripcion, valor, coste);
+                var historia = new HistoriaUsuario(id, descripcion, valor, coste);
                 var newNodeHistoria = vBacklog.acciones.drawHistoria(historia);
 
-                vmBacklog.updateHistoria(historia);
-                vBacklog.acciones.updateHistoria(newNodeHistoria);
+                vmBacklog.updateHistoria(historia,oldId);
+                vBacklog.acciones.updateHistoria(newNodeHistoria,oldId);
                 vBacklog.acciones.hideForm();
             }
         }

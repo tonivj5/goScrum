@@ -9,23 +9,18 @@
 var HistoriaUsuario = (function(){
     'use strict';
 
-    var HistoriaUsuario =  function(id, nombre,descripcion,valor,coste){
+    var HistoriaUsuario =  function(id,descripcion,valor,coste){
         this.id = id;
-        this.nombre = nombre;
         this.descripcion = descripcion;
         this.valor = valor;
         this.coste = coste;
-        this.tareas = [];
+        //this.tareas = [];
     };
 
     HistoriaUsuario.prototype = {
 
         getID: function(){ 
             return this.id;
-        },
-
-        getNombre: function(){
-            return this.nombre;
         },
 
         getDescripcion: function(){
@@ -39,16 +34,8 @@ var HistoriaUsuario = (function(){
             return this.coste;
         },
 
-        getTareas: function(){
-            return this.tareas;
-        },
-
         setID: function(id){
             this.id=id;
-        },
-
-        setNombre: function(nombre){
-             this.nombre=nombre;
         },
 
         setDescripcion: function(descripcion){
@@ -60,12 +47,9 @@ var HistoriaUsuario = (function(){
         },
         setCoste: function(coste){
             this.coste=coste;
-        },
+        }
 
-        addTarea: function(tarea){
-            this.tareas.push(tarea);
-        },
-
+        /*
         removeTarea: function(id){
 
             for(var i=0;this.tareas.length;i++){
@@ -77,6 +61,7 @@ var HistoriaUsuario = (function(){
 
             return false;
         }
+        */
 
     }
 

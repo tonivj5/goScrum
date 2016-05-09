@@ -30,7 +30,8 @@ var vBacklog = (function() {
                     txtValor = document.getElementById("txtValor").value,
                     txtDesc = document.getElementById("txtDesc").value;
                 
-                var historia = new HistoriaUsuario(null, txtNombre, txtDesc, txtValor,txtCoste);
+                var historia = new HistoriaUsuario(txtNombre, txtDesc, txtValor,txtCoste);
+                console.log(historia);
                 
                 return historia;
             },
@@ -38,22 +39,24 @@ var vBacklog = (function() {
                 var divHistorias = document.getElementById("divHistoriasUsuario");
                 divHistorias.removeChild(nodeHistoria);
             },
-            updateHistoria: function(newNodeHistoria) {
-                var id = newNodeHistoria.getAttribute("id");
-                var oldNodeHistoria = document.getElementById(id);
+            updateHistoria: function(newNodeHistoria,oldId) {
+                console.log(oldId);
+                console.log(document.getElementById(oldId));
+                var oldNodeHistoria = document.getElementById(oldId);
                 var padre = oldNodeHistoria.parentNode;
                 padre.replaceChild(newNodeHistoria, oldNodeHistoria)
             },
             drawHistoria: function drawHistoria(historia) {
-                var id = "HU"+historia.getID();
+                console.log(historia);
+                var id = historia.getID();
                 var domObject = document.createElement("div");
                 domObject.setAttribute("class", "historia");
                 domObject.setAttribute("id", id);
                 domObject.innerHTML = "<ul>"+
-                                            "<li>nombre = <span class='nombreHU'>"+historia.getNombre()+"</span></li>"+
-                                            "<li>descripcion = <span class='descripcionHU'>"+historia.getDescripcion()+"</span></li>"+
+                                            "<li>nombre = <span class='nombreHU'>"+historia.getID()+"</span></li>"+
                                             "<li>valor = <span class='valorHU'>"+historia.getValor()+"</span></li>"+
                                             "<li>coste = <span class='costeHU'>"+historia.getCoste()+"</span></li>"+
+                                            "<li>descripcion = <span class='descripcionHU'>"+historia.getDescripcion()+"</span></li>"+
                                         "</ul>"+
                                         "<button id='btnUpdateHU"+historia.getID()+"' onclick='vBacklog.acciones.showFormUpdateHistoria(this.parentNode)'>Modificar</button>"+
                                         "<button id='btnRemoveHU"+historia.getID()+"' onclick='bBacklog.eventos.removeHistoria(this.parentNode)'>Borrar</button>";
@@ -70,13 +73,16 @@ var vBacklog = (function() {
                 divFondo.setAttribute("class","drawBackgroundWhenNewHistoria");
             },
             showFormUpdateHistoria: function(nodeHistoria){
+                var oldId = nodeHistoria.getAttribute("id");
+                
                 var btnApply = document.getElementById("btnApply");
                 var formulario = document.getElementById("formNewHistoria");
                 var divFondo = document.getElementById("fondo");
-                document.getElementById("txtID").innerHTML = nodeHistoria.getAttribute("id").substr(2);
+                document.getElementById("txtNombre").innerHTML = nodeHistoria.getAttribute("id");
                 
                 btnApply.removeEventListener("click", bBacklog.eventos.addHistoria);
-                btnApply.setAttribute("onclick", "bBacklog.eventos.updateHistoria(this.parentNode)");
+                console.log(oldId+" en vBacklog");
+                btnApply.setAttribute("onclick", "bBacklog.eventos.updateHistoria(this.parentNode , "+oldId+")");
                 formulario.setAttribute("class","drawFormWhenNewHistoria");
                 divFondo.setAttribute("class","drawBackgroundWhenNewHistoria");          
                
@@ -87,15 +93,14 @@ var vBacklog = (function() {
                 
             },
             getHistoriaFromNode: function(nodeHistoria) {
-                var id = nodeHistoria.getAttribute("id").substring(2),
-                    nombre = nodeHistoria.getElementsByClassName("nombreHU")[0].value,
+                var id = nodeHistoria.getElementsByClassName("nombreHU")[0].value,
                     descripcion = nodeHistoria.getElementsByClassName("descripcionHU")[0].value,
                     valor = nodeHistoria.getElementsByClassName("valorHU")[0].value,
                     coste = nodeHistoria.getElementsByClassName("costeHU")[0].value;
                 
                 console.log("ID de la historia eliminada: " + id);
                 
-                return new HistoriaUsuario(id, nombre, descripcion, valor,coste);
+                return new HistoriaUsuario(id, descripcion, valor,coste);
             },
             hideForm: function() {
                 var formulario = document.getElementById("formNewHistoria");
