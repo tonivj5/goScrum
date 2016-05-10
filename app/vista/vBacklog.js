@@ -8,7 +8,7 @@ ___  _|__| ______  _  _\______   \_____    ____ |  | _|  |   ____   ____
 */
 var vBacklog = (function() {
     'use strict';
-    
+    // Aquí sólo iría los métodos para pintar lo que le lleguen.
     return {
         init: function() {
             var btnNewHistoria = document.getElementById("btnNewHistoria");

@@ -7,6 +7,7 @@ __________.__            .___          __________                __   .__
         \/        \/      \/    \/             \/      \/     \/     \/          /_____/  
 */
 var bBacklog = (function() {
+    // Aquí iría la extracción de elementos del DOM y pasarlos al vm
     return {
         init: function() {
             vBacklog.init();

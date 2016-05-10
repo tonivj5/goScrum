@@ -4,13 +4,13 @@ var BD = {
         this.AJAX = BD.createAjaxObj();
     },
     sendHistoria: function(historia) {
+        // Esto iría en el vm
         var formData = new FormData();
         formData.append("id", historia.getID());
         formData.append("nombre", historia.getNombre());
         formData.append("coste", historia.getCoste());
         formData.append("valor", historia.getValor());
         formData.append("descripcion", historia.getDescripcion());
-        
     },
     createAjaxObj: function(accion) {
         var xhttp;

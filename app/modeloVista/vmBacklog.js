@@ -8,6 +8,7 @@ ___  _|__| ______  _  __/     \   ____   __| _/____ |  |\______   \_____    ____
 
 */
 var vmBacklog = (function() {
+    // Aquí iría la lógica de Negocio
     'use strict';
     
     return {
