@@ -113,16 +113,6 @@ var vBacklog = (function() {
                 if((keynum == 8) || (keynum == 46) ||(keynum == 0))
                     return true;
                 return /\d/.test(String.fromCharCode(keynum));
-            },
-            getPositionOfChild(id){
-                var hijos = document.getElementById("divHistoriasUsuario").children; 
-                for (var i=0;i<hijos.length;i++) {
-                    if(id == hijos[i].getAttribute("id")){
-                        //el -1 es porque el primer elemennto es el titulo
-                        return i-1;
-                    }
-                }
-                return -1;
             }
         }
     };

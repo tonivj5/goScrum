@@ -17,7 +17,7 @@ var bBacklog = (function() {
             addHistoria: function() {
                 var historia = vBacklog.acciones.getHistoriaFromForm();
                 
-                switch (vmBacklog.checkID(historia.getID(),-1)){
+                switch (vmBacklog.checkID(historia.getID(), null)){
                     case 0:
                         vmBacklog.addHistoria(historia);
                         vBacklog.acciones.addHistoria(historia);
@@ -47,8 +47,7 @@ var bBacklog = (function() {
                 var historia = new HistoriaUsuario(id, descripcion, valor, coste);
                 var newNodeHistoria = vBacklog.acciones.drawHistoria(historia);
                 
-                var positionOfChild = vBacklog.acciones.getPositionOfChild(oldID);
-                switch (vmBacklog.checkID(id,positionOfChild)){
+                switch (vmBacklog.checkID(id, oldID)){
                     case 0:
                         vmBacklog.updateHistoria(historia, oldID);
                         vBacklog.acciones.updateHistoria(newNodeHistoria, oldID);

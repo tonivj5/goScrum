@@ -48,13 +48,17 @@ var vmBacklog = (function() {
              
             return false;
         },
-        checkID: function(id,positionOfChild){
-            var contador = 0;
-            if((id == "") || (/\s/.test(id))){
+        checkID: function(id, oldID){
+            if(!id) {
                 return 2;
             }
+            
+            if(id == oldID) {
+                return 0;
+            }
+            
             for(var i = 0; i < this.historias.length; i++)
-                if(this.historias[i].getID() == id && (i != positionOfChild)) {
+                if(this.historias[i].getID() == id) {
                     return 1;
                 }
              
