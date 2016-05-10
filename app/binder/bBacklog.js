@@ -25,9 +25,9 @@ var bBacklog = (function() {
                 vmBacklog.removeHistoria(historia);
                 vBacklog.acciones.removeHistoria(nodeHistoria);
             },
-            updateHistoria: function(nodeHistoria,oldnodeHistoria) {
+            updateHistoria: function(nodeHistoria,oldNodeHistoria) {
                 
-                var oldId = oldnodeHistoria.getAttribute("id");
+                var oldID = oldNodeHistoria.getAttribute("id");
                 
                 var id = nodeHistoria.querySelector("#txtNombre").value,
                     coste = nodeHistoria.querySelector("#txtCoste").value,
@@ -37,8 +37,8 @@ var bBacklog = (function() {
                 var historia = new HistoriaUsuario(id, descripcion, valor, coste);
                 var newNodeHistoria = vBacklog.acciones.drawHistoria(historia);
 
-                vmBacklog.updateHistoria(historia,oldId);
-                vBacklog.acciones.updateHistoria(newNodeHistoria,oldId);
+                vmBacklog.updateHistoria(historia, oldID);
+                vBacklog.acciones.updateHistoria(newNodeHistoria, oldID);
                 vBacklog.acciones.hideForm();
             }
         }

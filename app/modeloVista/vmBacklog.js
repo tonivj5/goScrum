@@ -39,9 +39,9 @@ var vmBacklog = (function() {
             
             return false;
         },
-        updateHistoria: function(historia,oldId){
+        updateHistoria: function(historia,oldID){
             for(var i = 0; i < this.historias.length; i++)
-                if(this.historias[i].getID() == oldId) {
+                if(this.historias[i].getID() == oldID) {
                     this.historias[i]=historia;
                     return true;
                 }
