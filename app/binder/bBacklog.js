@@ -16,30 +16,51 @@ var bBacklog = (function() {
         eventos: {
             addHistoria: function() {
                 var historia = vBacklog.acciones.getHistoriaFromForm();
-                vmBacklog.addHistoria(historia);
-                vBacklog.acciones.addHistoria(historia);
-                vBacklog.acciones.hideForm();
+                
+                switch (vmBacklog.checkID(historia.getID(),-1)){
+                    case 0:
+                        vmBacklog.addHistoria(historia);
+                        vBacklog.acciones.addHistoria(historia);
+                        vBacklog.acciones.hideForm();
+                        break;
+                    case 1:
+                         alert("No puedes introducir dos historias con el mismo nombre");
+                        break;
+                    case 2:
+                         alert("No se permite el nombre vacio ni que contenga espacios");
+                        break;
+                }
             },
             removeHistoria: function(nodeHistoria) {
                 var historia = vBacklog.acciones.getHistoriaFromNode(nodeHistoria);
                 vmBacklog.removeHistoria(historia);
                 vBacklog.acciones.removeHistoria(nodeHistoria);
+                
             },
             updateHistoria: function(nodeHistoria,oldNodeHistoria) {
-                
                 var oldID = oldNodeHistoria.getAttribute("id");
-                
-                var id = nodeHistoria.querySelector("#txtNombre").value,
+                var id = nodeHistoria.querySelector("#txtID").value,
                     coste = nodeHistoria.querySelector("#txtCoste").value,
                     valor = nodeHistoria.querySelector("#txtValor").value,
                     descripcion = nodeHistoria.querySelector("#txtDesc").value;
 
                 var historia = new HistoriaUsuario(id, descripcion, valor, coste);
                 var newNodeHistoria = vBacklog.acciones.drawHistoria(historia);
-
-                vmBacklog.updateHistoria(historia, oldID);
-                vBacklog.acciones.updateHistoria(newNodeHistoria, oldID);
-                vBacklog.acciones.hideForm();
+                
+                var positionOfChild = vBacklog.acciones.getPositionOfChild(oldID);
+                switch (vmBacklog.checkID(id,positionOfChild)){
+                    case 0:
+                        vmBacklog.updateHistoria(historia, oldID);
+                        vBacklog.acciones.updateHistoria(newNodeHistoria, oldID);
+                        vBacklog.acciones.hideForm();
+                        break;
+                    case 1:
+                         alert("Ya hay una historia con ese nombre");
+                        break;
+                    case 2:
+                         alert("No se permite el nombre vacio ni que contenga espacios");
+                        break;
+                }
             }
         }
     }

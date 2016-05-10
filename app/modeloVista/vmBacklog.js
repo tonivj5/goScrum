@@ -48,6 +48,18 @@ var vmBacklog = (function() {
              
             return false;
         },
+        checkID: function(id,positionOfChild){
+            var contador = 0;
+            if((id == "") || (/\s/.test(id))){
+                return 2;
+            }
+            for(var i = 0; i < this.historias.length; i++)
+                if(this.historias[i].getID() == id && (i != positionOfChild)) {
+                    return 1;
+                }
+             
+            return 0;
+        },
         setCallback: function(callbackName, funcion) {
             this.callbacks[callbackName] = funcion;
         },

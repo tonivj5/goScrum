@@ -29,13 +29,14 @@
 
             <form method="get" action="#" enctype="application/x-www-form-urlencoded">
                 <ul >
-                    <li><label for="txtNombre">Nombre</label><input type="text" name="txtNombre" id="txtNombre"/></li>
-                    <li><label for="txtCoste">Coste</label><input type="text" name="txtCoste" id="txtCoste"/></li>
-                    <li><label for="txtValor">Valor</label><input type="text" name="txtValor" id="txtValor"/></li>
+                    <li><label for="txtID">Nombre</label><input type="text" name="txtID" id="txtID"/></li>
+                    <li><label for="txtCoste">Coste</label><input type="text" name="txtCoste" id="txtCoste" onkeypress="return vBacklog.acciones.checkKeyPress(event)"/></li>
+                    <li><label for="txtValor">Valor</label><input type="text" name="txtValor" id="txtValor" onkeypress="return vBacklog.acciones.checkKeyPress(event)"/></li>
                     <li><label for="txtDesc">Descripción</label><textarea name="txtDesc" id="txtDesc"></textarea></li>
                 </ul>
-                <input id="btnApply" type="button" value="Enviar"/>
-                <input type="reset" value="limpiar"/>
+                <input type="button" id="btnApply" value="Enviar"/>
+                <input type="reset" id ="btnReset" value="limpiar"/>
+                <input type="button" id='btnCancel' value="Cancelar"/> 
              </form>
 
         </div>
