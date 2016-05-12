@@ -14,21 +14,19 @@ var bBacklog = (function() {
             vmBacklog.init();
         },
         eventos: {
-            addHistoria: function() {
+            addHistoria: function(e) {
+                e.preventDefault();
+                var form = e.target;
+                console.log(form);
+                
                 var historia = vBacklog.acciones.getHistoriaFromForm();
                 
-                switch (vmBacklog.checkID(historia.getID(), null)){
-                    case 0:
-                        vmBacklog.addHistoria(historia);
-                        vBacklog.acciones.addHistoria(historia);
-                        vBacklog.acciones.hideForm();
-                        break;
-                    case 1:
-                         alert("No puedes introducir dos historias con el mismo nombre");
-                        break;
-                    case 2:
-                         alert("No se permite el nombre vacio ni que contenga espacios");
-                        break;
+                if(vmBacklog.checkID(historia.getID(), null)){
+                    vmBacklog.addHistoria(historia);
+                    vBacklog.acciones.addHistoria(historia);
+                    vBacklog.acciones.hideForm();
+                } else {
+                    alert("El nombre de la historia ya existe");
                 }
             },
             removeHistoria: function(nodeHistoria) {
@@ -37,28 +35,24 @@ var bBacklog = (function() {
                 vBacklog.acciones.removeHistoria(nodeHistoria);
                 
             },
-            updateHistoria: function(nodeHistoria,oldNodeHistoria) {
-                var oldID = oldNodeHistoria.getAttribute("id");
-                var id = nodeHistoria.querySelector("#txtID").value,
-                    coste = nodeHistoria.querySelector("#txtCoste").value,
-                    valor = nodeHistoria.querySelector("#txtValor").value,
-                    descripcion = nodeHistoria.querySelector("#txtDesc").value;
-
-                var historia = new HistoriaUsuario(id, descripcion, valor, coste);
+            updateHistoria: function(e) {
+                e.preventDefault();
+                var form = e.target;
+                var nodeOldID = form.querySelector("#oldID");
+                var oldID = nodeOldID.innerHTML;
+                nodeOldID.parentNode.removeChild(nodeOldID);
+                console.log("OLD ID: "+oldID);
+                
+                var historia = vBacklog.acciones.getHistoriaFromForm();
                 var newNodeHistoria = vBacklog.acciones.drawHistoria(historia);
                 
-                switch (vmBacklog.checkID(id, oldID)){
-                    case 0:
-                        vmBacklog.updateHistoria(historia, oldID);
-                        vBacklog.acciones.updateHistoria(newNodeHistoria, oldID);
-                        vBacklog.acciones.hideForm();
-                        break;
-                    case 1:
-                         alert("Ya hay una historia con ese nombre");
-                        break;
-                    case 2:
-                         alert("No se permite el nombre vacio ni que contenga espacios");
-                        break;
+                        
+                if(vmBacklog.checkID(historia.getID(), oldID)){
+                    vmBacklog.updateHistoria(historia, oldID);
+                    vBacklog.acciones.updateHistoria(newNodeHistoria, oldID);
+                    vBacklog.acciones.hideForm();
+                } else {
+                    alert("El nombre de la historia ya existe");
                 }
             }
         }

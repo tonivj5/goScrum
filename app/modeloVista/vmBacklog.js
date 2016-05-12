@@ -49,20 +49,17 @@ var vmBacklog = (function() {
             return false;
         },
         checkID: function(id, oldID){
-            if(!id) {
-                return 2;
-            }
             
             if(id == oldID) {
-                return 0;
+                return true;
             }
             
             for(var i = 0; i < this.historias.length; i++)
                 if(this.historias[i].getID() == id) {
-                    return 1;
+                    return false;
                 }
              
-            return 0;
+            return true;
         },
         setCallback: function(callbackName, funcion) {
             this.callbacks[callbackName] = funcion;
