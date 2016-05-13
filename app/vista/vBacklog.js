@@ -110,12 +110,6 @@ var vBacklog = (function() {
                 var divFondo = document.getElementById("fondo");
                 formulario.setAttribute("class","hidden");
                 divFondo.setAttribute("class","hidden");
-            },
-            checkKeyPress(e){
-                var keynum =  window.event ? window.event.keyCode : e.which;
-                if((keynum == 8) || (keynum == 46) ||(keynum == 0))
-                    return true;
-                return /\d/.test(String.fromCharCode(keynum));
             }
         }
     };
