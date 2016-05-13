@@ -13,6 +13,16 @@ var bBacklog = (function() {
             vBacklog.init();
             vmBacklog.init();
         },
+        setAfterCallback: function(afterCallback){
+            this.afterCallback=afterCallback;
+        },
+        callback: function(respuesta){
+            if(vmBacklog.checkAnswer(respuesta)){
+                this.afterCallback(respuesta);
+            }else{
+                //vista de errores
+            }
+        },
         eventos: {
             addHistoria: function(e) {
                 e.preventDefault();
@@ -38,9 +48,15 @@ var bBacklog = (function() {
             updateHistoria: function(e) {
                 e.preventDefault();
                 var form = e.target;
+                //eliminar del binder por coger elementos de la vista
                 var nodeOldID = form.querySelector("#oldID");
+                //---------------------------------------------------
+                
                 var oldID = nodeOldID.innerHTML;
+                
+                //eliminar del binder por modificar elementos de la vista
                 nodeOldID.parentNode.removeChild(nodeOldID);
+                //---------------------------------------------------
                 console.log("OLD ID: "+oldID);
                 
                 var historia = vBacklog.acciones.getHistoriaFromForm();

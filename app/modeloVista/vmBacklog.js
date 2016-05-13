@@ -61,6 +61,13 @@ var vmBacklog = (function() {
              
             return true;
         },
+        checkAnswer(respuesta){
+            if(respuesta["error"]){
+                return false;
+            }
+            return true;
+        }
+        /*
         setCallback: function(callbackName, funcion) {
             this.callbacks[callbackName] = funcion;
         },
@@ -68,5 +75,6 @@ var vmBacklog = (function() {
             return this.callbacks[callbackName];
         },
         callbacks: {}
+        */
     }
 })();
