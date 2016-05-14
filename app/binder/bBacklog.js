@@ -18,30 +18,44 @@ var bBacklog = (function() {
         },
         callback: function(respuesta){
             if(vmBacklog.checkAnswer(respuesta)){
+                //sera un metodo del atributo eventos
                 this.afterCallback(respuesta);
             }else{
-                //vista de errores
+                //mejorar vista de errores
+                alert("Error"+resuesta["error"]);
             }
         },
         eventos: {
-            addHistoria: function(e) {
+            tryAddHistoria: function(e) {
                 e.preventDefault();
                 var form = e.target;
                 console.log(form);
                 
-                var historia = vBacklog.acciones.getHistoriaFromForm();
+                //var historia = vBacklog.acciones.getHistoriaFromForm();
                 
                 if(vmBacklog.checkID(historia.getID(), null)){
-                    vmBacklog.addHistoria(historia);
-                    vBacklog.acciones.addHistoria(historia);
-                    vBacklog.acciones.hideForm();
+                    bBacklog.setAfterCallback(bBacklog.eventos.addHistoria);
+                    //llamada AJAX
+                    
                 } else {
                     alert("El nombre de la historia ya existe");
                 }
             },
-            removeHistoria: function(nodeHistoria) {
-                var historia = vBacklog.acciones.getHistoriaFromNode(nodeHistoria);
+            addHistoria: function(respuesta){
+                var historia = new HistoriaUsuario(respuesta.id,respuesta.descripcion,respuesta.valor,respuesta.coste);
+                vmBacklog.addHistoria(historia);
+                vBacklog.acciones.addHistoria(historia);
+                vBacklog.acciones.hideForm();
+            },
+            tryRemoveHistoria : function(){
+                bBacklog.setAfterCallback(bBacklog.eventos.removeHistoria);
+                //llamada AJAX
+            },
+            removeHistoria: function(respuesta) {
+                var historia = new HistoriaUsuario(respuesta.id,respuesta.descripcion,respuesta.valor,respuesta.coste);
+                //var historia = vBacklog.acciones.getHistoriaFromNode(nodeHistoria);
                 vmBacklog.removeHistoria(historia);
+                //modificar para sacar el nodo desde la historia de respuesta
                 vBacklog.acciones.removeHistoria(nodeHistoria);
                 
             },
