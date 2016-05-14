@@ -18,8 +18,9 @@ var bBacklog = (function() {
         },
         callback: function(respuesta){
             if(vmBacklog.checkAnswer(respuesta)){
+                var historia = vmBacklog.parseHistoriaFromJSON(respuesta);
                 //sera un metodo del atributo eventos
-                this.afterCallback(respuesta);
+                this.afterCallback(historia);
             }else{
                 //mejorar vista de errores
                 alert("Error"+resuesta["error"]);
@@ -50,13 +51,13 @@ var bBacklog = (function() {
                     alert("El nombre de la historia ya existe");
                 }
             },
-            addHistoria: function(respuesta){
-                var historia = new HistoriaUsuario(respuesta["id"],respuesta["descripcion"],respuesta["valor"],respuesta["coste"]);
+            addHistoria: function(historia){
                 vmBacklog.addHistoria(historia);
                 vBacklog.acciones.addHistoria(historia);
                 vBacklog.acciones.hideForm();
             },
             tryRemoveHistoria : function(nodeHistoria){
+                //intentar cambiar el parametro pasado para que solo sea la id y no todo el dom
                 var id = nodeHistoria.getAttribute("id");
                 //para la prueba
                 var historia = vmBacklog.getHistoriaByID(id);
@@ -72,8 +73,7 @@ var bBacklog = (function() {
                                        "coste":historia.getCoste()});
                 //-----------------------------------------------------------
             },
-            removeHistoria: function(respuesta) {
-                var historia = new HistoriaUsuario(respuesta["id"],respuesta["descripcion"],respuesta["valor"],respuesta["coste"]);
+            removeHistoria: function(historia) {
                 vmBacklog.removeHistoria(historia);
                 vBacklog.acciones.removeHistoria(historia);
             },
@@ -98,8 +98,8 @@ var bBacklog = (function() {
                     alert("El nombre de la historia ya existe");
                 }
             },
-            updateHistoria: function(respuesta){
-                var historia = new HistoriaUsuario(respuesta["id"],respuesta["descripcion"],respuesta["valor"],respuesta["coste"]);
+            updateHistoria: function(historia){
+                // intentar modificar el paso de oldID
                 var oldID = vBacklog.acciones.getOldID();
                 var newNodeHistoria = vBacklog.acciones.drawHistoria(historia);
                 vmBacklog.updateHistoria(historia, oldID);

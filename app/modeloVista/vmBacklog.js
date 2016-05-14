@@ -66,6 +66,10 @@ var vmBacklog = (function() {
                 return false;
             }
             return true;
+        },
+        parseHistoriaFromJSON(respuesta){
+            var historia = new HistoriaUsuario(respuesta["id"],respuesta["descripcion"],respuesta["valor"],respuesta["coste"]);
+            return historia;
         }
         /*
         setCallback: function(callbackName, funcion) {

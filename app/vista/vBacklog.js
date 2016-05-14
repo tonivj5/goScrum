@@ -97,8 +97,6 @@ var vBacklog = (function() {
                 nodeOldID.innerHTML = oldID;
                 console.log(oldID+" en vBacklog");
                 
-                document.getElementById("txtID").innerHTML = nodeHistoria.getAttribute("id");
-                
                 formulario.setAttribute("class","drawFormWhenNewHistoria");
                 divFondo.setAttribute("class","drawBackgroundWhenNewHistoria");          
                
