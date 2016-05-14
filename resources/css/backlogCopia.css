@@ -1,8 +1,3 @@
-body {
-  background-image: url("../img/fondoBacklog.jpg");
-  background-size: cover;
-}
-
 .drawBackgroundWhenNewHistoria {
   position: absolute;
   top: 0;
@@ -13,18 +8,16 @@ body {
 }
 
 #wrapper {
-  border: 1px solid white;
+  border: 1px solid black;
   display: flex;
   margin-left: auto;
   margin-right: auto;
   padding: 10px;
-  color: white;
 }
 #wrapper .contenedor {
-  border: 1px solid white;
+  border: 1px solid black;
   margin-left: auto;
   width: 30%;
-  color: white;
 }
 #wrapper #divTareas {
   margin-right: auto;
@@ -39,13 +32,13 @@ body {
   margin: auto;
   top: 30%;
   left: 37%;
-  background-color: gray;
+  background-color: cadetblue;
 }
 
 .historia {
-  background-color: Gray;
+  background-color: cyan;
   margin: 10px;
   padding: 5px;
 }
 
-/*# sourceMappingURL=backlog.css.map */
+/*# sourceMappingURL=backlogCopia.css.map */

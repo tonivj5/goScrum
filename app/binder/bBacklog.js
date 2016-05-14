@@ -29,61 +29,82 @@ var bBacklog = (function() {
             tryAddHistoria: function(e) {
                 e.preventDefault();
                 var form = e.target;
-                console.log(form);
                 
-                //var historia = vBacklog.acciones.getHistoriaFromForm();
+                var historia = vBacklog.acciones.getHistoriaFromForm();
                 
                 if(vmBacklog.checkID(historia.getID(), null)){
                     bBacklog.setAfterCallback(bBacklog.eventos.addHistoria);
-                    //llamada AJAX
+                
+                    //llamada AJAX que siempre llama ha callback
+                    
+                    //solo de prueba---------------------------------------------
+                    var object = {"id":historia.getID(),
+                                       "descripcion":historia.getDescripcion(),
+                                       "valor":historia.getValor(),
+                                       "coste":historia.getCoste()};
+                    console.log(object);
+                    bBacklog.callback(object);
+                    //-----------------------------------------------------------
                     
                 } else {
                     alert("El nombre de la historia ya existe");
                 }
             },
             addHistoria: function(respuesta){
-                var historia = new HistoriaUsuario(respuesta.id,respuesta.descripcion,respuesta.valor,respuesta.coste);
+                var historia = new HistoriaUsuario(respuesta["id"],respuesta["descripcion"],respuesta["valor"],respuesta["coste"]);
                 vmBacklog.addHistoria(historia);
                 vBacklog.acciones.addHistoria(historia);
                 vBacklog.acciones.hideForm();
             },
-            tryRemoveHistoria : function(){
+            tryRemoveHistoria : function(nodeHistoria){
+                var id = nodeHistoria.getAttribute("id");
+                //para la prueba
+                var historia = vmBacklog.getHistoriaByID(id);
+                //--------------------------
+                
                 bBacklog.setAfterCallback(bBacklog.eventos.removeHistoria);
-                //llamada AJAX
+                //llamada AJAX que siempre llama ha callback
+                
+                //solo de prueba---------------------------------------------
+                bBacklog.callback({"id":historia.getID(),
+                                       "descripcion":historia.getDescripcion(),
+                                       "valor":historia.getValor(),
+                                       "coste":historia.getCoste()});
+                //-----------------------------------------------------------
             },
             removeHistoria: function(respuesta) {
-                var historia = new HistoriaUsuario(respuesta.id,respuesta.descripcion,respuesta.valor,respuesta.coste);
-                //var historia = vBacklog.acciones.getHistoriaFromNode(nodeHistoria);
+                var historia = new HistoriaUsuario(respuesta["id"],respuesta["descripcion"],respuesta["valor"],respuesta["coste"]);
                 vmBacklog.removeHistoria(historia);
-                //modificar para sacar el nodo desde la historia de respuesta
-                vBacklog.acciones.removeHistoria(nodeHistoria);
-                
+                vBacklog.acciones.removeHistoria(historia);
             },
-            updateHistoria: function(e) {
+            tryUpdateHistoria: function(e) {
                 e.preventDefault();
                 var form = e.target;
-                //eliminar del binder por coger elementos de la vista
-                var nodeOldID = form.querySelector("#oldID");
-                //---------------------------------------------------
-                
-                var oldID = nodeOldID.innerHTML;
-                
-                //eliminar del binder por modificar elementos de la vista
-                nodeOldID.parentNode.removeChild(nodeOldID);
-                //---------------------------------------------------
-                console.log("OLD ID: "+oldID);
-                
+                var oldID = vBacklog.acciones.getOldID();
+                console.log("OLD ID: "+oldID);    
                 var historia = vBacklog.acciones.getHistoriaFromForm();
-                var newNodeHistoria = vBacklog.acciones.drawHistoria(historia);
                 
-                        
                 if(vmBacklog.checkID(historia.getID(), oldID)){
-                    vmBacklog.updateHistoria(historia, oldID);
-                    vBacklog.acciones.updateHistoria(newNodeHistoria, oldID);
-                    vBacklog.acciones.hideForm();
+                    bBacklog.setAfterCallback(bBacklog.eventos.updateHistoria);
+                    //llamada AJAX que siempre llama ha callback
+            
+                    //solo de prueba---------------------------------------------
+                    bBacklog.callback({"id":historia.getID(),
+                                       "descripcion":historia.getDescripcion(),
+                                       "valor":historia.getValor(),
+                                       "coste":historia.getCoste()});
+                    //-----------------------------------------------------------
                 } else {
                     alert("El nombre de la historia ya existe");
                 }
+            },
+            updateHistoria: function(respuesta){
+                var historia = new HistoriaUsuario(respuesta["id"],respuesta["descripcion"],respuesta["valor"],respuesta["coste"]);
+                var oldID = vBacklog.acciones.getOldID();
+                var newNodeHistoria = vBacklog.acciones.drawHistoria(historia);
+                vmBacklog.updateHistoria(historia, oldID);
+                vBacklog.acciones.updateHistoria(newNodeHistoria, oldID);
+                vBacklog.acciones.hideForm();
             }
         }
     }
