@@ -12,7 +12,7 @@ var bBacklog = (function() {
         init: function() {
             vBacklog.init();
             vmBacklog.init();
-            DB.init("http://localhost:5000/historias/");
+            DB.init("http://192.168.6.243:5000/historias/");
             bBacklog.eventos.getAllHistorias();
         },
         setAfterCallback: function(afterCallback){
@@ -21,7 +21,6 @@ var bBacklog = (function() {
         callback: function(respuesta){
             respuesta = vmBacklog.parseHistoriaFromJSON(respuesta);
             if(vmBacklog.checkAnswer(respuesta)) {
-                //sera un metodo del atributo eventos
                 bBacklog.afterCallback(respuesta);
             } else {
                 //mejorar vista de errores
@@ -43,15 +42,16 @@ var bBacklog = (function() {
                 
                 var historia = vBacklog.acciones.getHistoriaFromForm();
                 
-                if(vmBacklog.checkID(historia.getID(), null)) {
+               // if(vmBacklog.checkID(historia.getID(), null)) {
                     bBacklog.setAfterCallback(bBacklog.eventos.addHistoria);
                     DB.setCallback(bBacklog.callback);
                     DB.consulta({op: "POST", data: historia});
-                    //llamada AJAX que siempre llama ha callback
-                    
+            
+                /*
                 } else {
                     alert("El nombre de la historia ya existe");
                 }
+                */
             },
             addHistoria: function(historia){
                 vmBacklog.addHistoria(historia);
@@ -61,13 +61,11 @@ var bBacklog = (function() {
             tryRemoveHistoria : function(nodeHistoria){
                 //intentar cambiar el parametro pasado para que solo sea la id y no todo el dom
                 var id = nodeHistoria.getAttribute("id");
-                //para la prueba
+                
                 var historia = vmBacklog.getHistoriaByID(id);
-                //--------------------------
                 DB.setCallback(bBacklog.callback);
                 bBacklog.setAfterCallback(bBacklog.eventos.removeHistoria);
                 DB.consulta({op: "DELETE", data: historia});
-                //llamada AJAX que siempre llama ha callback
             },
             removeHistoria: function(historia) {
                 vmBacklog.removeHistoria(historia);
@@ -76,26 +74,24 @@ var bBacklog = (function() {
             tryUpdateHistoria: function(e) {
                 e.preventDefault();
                 var form = e.target;
-                var oldID = vBacklog.acciones.getOldID();
-                console.log("OLD ID: "+oldID);    
+               
                 var historia = vBacklog.acciones.getHistoriaFromForm();
                 
-                if(vmBacklog.checkID(historia.getID(), oldID)){
-                    bBacklog.setAfterCallback(bBacklog.eventos.updateHistoria);
-                    //llamada AJAX que siempre llama ha callback
-                    DB.setCallback(bBacklog.callback);
-                    DB.consulta({op: "PATCH", data: historia});
+               // if(vmBacklog.checkID(historia.getID(), oldID)){
+                bBacklog.setAfterCallback(bBacklog.eventos.updateHistoria);
+                DB.setCallback(bBacklog.callback);
+                DB.consulta({op: "PATCH", data: historia});
 
+               /*
                 } else {
                     alert("El nombre de la historia ya existe");
                 }
+                */
             },
             updateHistoria: function(historia){
-                // intentar modificar el paso de oldID
-                var oldID = vBacklog.acciones.getOldID();
                 var newNodeHistoria = vBacklog.acciones.drawHistoria(historia);
-                vmBacklog.updateHistoria(historia, oldID);
-                vBacklog.acciones.updateHistoria(newNodeHistoria, oldID);
+                vmBacklog.updateHistoria(historia);
+                vBacklog.acciones.updateHistoria(newNodeHistoria);
                 vBacklog.acciones.hideForm();
             }
         }

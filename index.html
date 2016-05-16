@@ -11,7 +11,6 @@
         <div class="hidden" id="fondo"></div>
         
         <button type="button" id="btnNewHistoria">Añadir Nueva Historia</button>
-        <button type="button" id="btnChangeHistoria">Modificar Historia</button>
         
         <div id="wrapper">
             <div class="contenedor" id="divHistoriasUsuario">
@@ -29,7 +28,7 @@
 
             <form method="get" action="#" enctype="application/x-www-form-urlencoded" id="formulario">
                 <ul >
-                    <li><label for="txtID">Nombre</label><input type="text" name="txtID" id="txtID" required="required" pattern="^([^\s]+[\s]?)*[^\s]$" autofocus/></li>
+                    <li><label for="txtNombre">Nombre</label><input type="text" name="txtNombre" id="txtNombre" required="required" pattern="^([^\s]+[\s]?)*[^\s]$" autofocus/></li>
                     <li><label for="txtCoste">Coste</label><input type="number" name="txtCoste" id="txtCoste"/></li>
                     <li><label for="txtValor">Valor</label><input type="number" name="txtValor" id="txtValor"/></li>
                     <li><label for="txtDesc">Descripción</label><textarea name="txtDesc" id="txtDesc"></textarea></li>
@@ -38,7 +37,7 @@
                 <input type="submit" id="btnApply" value="Enviar"/>
                 <input type="reset" id ="btnReset" value="limpiar"/>
                 <input type="button" id='btnCancel' value="Cancelar"/> 
-                <span id="oldID" class="hidden"></span>
+                <span id="id" class="hidden"></span>
              </form>
 
         </div>

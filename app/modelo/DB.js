@@ -16,7 +16,8 @@ var DB = (function(){
         parseInfoToQuery: function(historia, op) {
             // Esto iría en el vm
             var formData = "?";
-            formData += "coste=" + historia.getCoste();
+            formData += "nombre=" + historia.getNombre();
+            formData += "&coste=" + historia.getCoste();
             formData += "&valor=" + historia.getValor();
             formData += "&descripcion=" + historia.getDescripcion();
             formData += "&id=" + historia.getID();

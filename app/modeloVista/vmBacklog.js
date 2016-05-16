@@ -26,8 +26,7 @@ var vmBacklog = (function() {
             return vmBacklog.historias;
         },
         addHistoria: function(historia) {
-            var pos = vmBacklog.historias.length;
-            vmBacklog.historias[pos] = historia;
+            vmBacklog.historias.push(historia);
             console.log(vmBacklog.historias);
         },
         addHistorias: function(historias) {
@@ -43,16 +42,16 @@ var vmBacklog = (function() {
             
             return false;
         },
-        updateHistoria: function(historia,oldID){
+        updateHistoria: function(historia){
             for(var i = 0; i < vmBacklog.historias.length; i++)
-                if(vmBacklog.historias[i].getID() == oldID) {
+                if(vmBacklog.historias[i].getID() == historia.getID()) {
                     vmBacklog.historias[i]=historia;
                     return true;
                 }
              
             return false;
         },
-        checkID: function(id, oldID){
+       /* checkID: function(id, oldID){
             
             if(id == oldID) {
                 return true;
@@ -64,7 +63,7 @@ var vmBacklog = (function() {
                 }
              
             return true;
-        },
+        },*/
         checkAnswer(respuesta){
             if(respuesta["error"]){
                 return false;
@@ -77,23 +76,14 @@ var vmBacklog = (function() {
                 if(Array.isArray(respuesta)) {
                     for(var i = 0; i < respuesta.length; i++) {
                         var data = respuesta[i];   
-                        respuesta[i] = new HistoriaUsuario(data.nombre, data.descripcion, data.valor, data.coste);
+                        respuesta[i] = new HistoriaUsuario(data.id,data.nombre, data.descripcion, data.valor, data.coste);
                     }
                     console.log(respuesta);
                 } else {
-                    respuesta = new HistoriaUsuario(respuesta.nombre, respuesta.descripcion, respuesta.valor, respuesta.coste);
+                    respuesta = new HistoriaUsuario(respuesta.id,respuesta.nombre, respuesta.descripcion, respuesta.valor, respuesta.coste);
                 }
             }
             return respuesta;
         }
-        /*
-        setCallback: function(callbackName, funcion) {
-            vmBacklog.callbacks[callbackName] = funcion;
-        },
-        getCallback: function(callbackName) {
-            return vmBacklog.callbacks[callbackName];
-        },
-        callbacks: {}
-        */
     }
 })();
