@@ -43,6 +43,8 @@ var DB = (function(){
             DB.AJAX.onreadystatechange = function(callback) {
                 if(DB.AJAX.readyState == 4 && DB.AJAX.status == 200) {
                     DB.callback(DB.AJAX.responseText);
+                } else if (DB.AJAX.readyState == 4 && DB.AJAX.status == 0){
+                    DB.callback(JSON.stringify({"error":"No se ha podido conectar a la Base de Datos"}));
                 }
             }
         },
