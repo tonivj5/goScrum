@@ -1,7 +1,0 @@
-{
-"version": 3,
-"mappings": "AAAC,SAAU;EACH,gBAAgB,EAAE,IAAI;EACtB,MAAM,EAAE,IAAI",
-"sources": ["../sass/historia-view.scss"],
-"names": [],
-"file": "historia-view.css"
-}

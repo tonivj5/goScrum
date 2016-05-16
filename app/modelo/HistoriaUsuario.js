@@ -1,19 +1,21 @@
-  ___ ___  .__           __                 .__          ____ ___                              .__         
- /   |   \ |__|  _______/  |_  ____ _______ |__|_____   |    |   \ ______ __ __ _____  _______ |__|  ____  
-/    ~    \|  | /  ___/\   __\/  _ \\_  __ \|  |\__  \  |    |   //  ___/|  |  \\__  \ \_  __ \|  | /  _ \ 
+/*
+  ___ ___  .__           __                 .__          ____ ___                              .__   
+ /   |   \ |__|  _______/  |_  ____ _______ |__|_____   |    |   \ ______ __ __ _____  _______ |__|  ____ 
+/    ~    \|  | /  ___/\   __\/  _ \\_  __ \|  |\__  \  |    |   //  ___/|  |  \\__  \ \_  __ \|  | /  _ \
 \    Y    /|  | \___ \  |  | (  <_> )|  | \/|  | / __ \_|    |  / \___ \ |  |  / / __ \_|  | \/|  |(  <_> )
- \___|_  / |__|/____  > |__|  \____/ |__|   |__|(____  /|______/ /____  >|____/ (____  /|__|   |__| \____/ 
-       \/           \/                               \/               \/             \/                    
-
+ \___|_  / |__|/____  > |__|  \____/ |__|   |__|(____  /|______/ /____  >|____/ (____  /|__|   |__| \____/
+       \/           \/                               \/               \/             \/                  
+*/
 var HistoriaUsuario = (function(){
     'use strict';
 
-    var HistoriaUsuario =  function(nombre,descripcion,valor){
-        this.id = "";
+    var HistoriaUsuario =  function(id,nombre,descripcion,valor,coste){
+        this.id = id;
         this.nombre = nombre;
         this.descripcion = descripcion;
         this.valor = valor;
-        this.tareas = [];
+        this.coste = coste;
+        //this.tareas = [];
     };
 
     HistoriaUsuario.prototype = {
@@ -21,43 +23,35 @@ var HistoriaUsuario = (function(){
         getID: function(){ 
             return this.id;
         },
-
         getNombre: function(){
             return this.nombre;
         },
-
         getDescripcion: function(){
             return this.descripcion;
         },
-
         getValor: function(){
             return this.valor;
         },
-
-        getTareas: function(){
-            return this.tareas;
+        getCoste: function(){
+            return this.coste;
         },
 
         setID: function(id){
             this.id=id;
         },
-
         setNombre: function(nombre){
-             this.nombre=nombre;
+            this.nombre=nombre;
         },
-
         setDescripcion: function(descripcion){
             this.descripcion= descripcion;
         },
-
         setValor: function(valor){
             this.valor=valor;
         },
-
-        addTarea: function(tarea){
-            this.tareas.push(tarea);
-        },
-
+        setCoste: function(coste){
+            this.coste=coste;
+        }
+        /*
         removeTarea: function(id){
 
             for(var i=0;this.tareas.length;i++){
@@ -68,15 +62,8 @@ var HistoriaUsuario = (function(){
             }
 
             return false;
-
-        },
-
-        modificarHistoria: function(nombre,descripcion,valor){
-            this.setNombre(nombre);
-            this.setDescripcion(descripcion);
-            this.setValor(valor);    
         }
-
+        */
     }
 
 return HistoriaUsuario;
