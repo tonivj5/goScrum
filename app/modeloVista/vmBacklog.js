@@ -13,36 +13,40 @@ var vmBacklog = (function() {
     
     return {
         init: function() {
-            this.historias = [];
+            vmBacklog.historias = [];
         },
         getHistoriaByID: function(id) {
-            for(var i = 0; i < this.historias.length; i++)
-                if(this.historias[i].getID() == id)
-                    return this.historias[i];
+            for(var i = 0; i < vmBacklog.historias.length; i++)
+                if(vmBacklog.historias[i].getID() == id)
+                    return vmBacklog.historias[i];
             
             return null;
         },
         getHistorias: function() {
-            return this.historias;
+            return vmBacklog.historias;
         },
         addHistoria: function(historia) {
-            var pos = this.historias.length;
-            this.historias[pos] = historia;
-            console.log(this.historias);
+            var pos = vmBacklog.historias.length;
+            vmBacklog.historias[pos] = historia;
+            console.log(vmBacklog.historias);
+        },
+        addHistorias: function(historias) {
+          for(var i = 0; i < historias.length; i++)
+              vmBacklog.addHistoria(historias[i]);
         },
         removeHistoria: function(historia) {
-            for(var i = 0; i < this.historias.length; i++)
-                if(this.historias[i].getID() == historia.getID()) {
-                    this.historias.splice(i, 1);
+            for(var i = 0; i < vmBacklog.historias.length; i++)
+                if(vmBacklog.historias[i].getID() == historia.getID()) {
+                    vmBacklog.historias.splice(i, 1);
                     return true;
                 }
             
             return false;
         },
         updateHistoria: function(historia,oldID){
-            for(var i = 0; i < this.historias.length; i++)
-                if(this.historias[i].getID() == oldID) {
-                    this.historias[i]=historia;
+            for(var i = 0; i < vmBacklog.historias.length; i++)
+                if(vmBacklog.historias[i].getID() == oldID) {
+                    vmBacklog.historias[i]=historia;
                     return true;
                 }
              
@@ -54,8 +58,8 @@ var vmBacklog = (function() {
                 return true;
             }
             
-            for(var i = 0; i < this.historias.length; i++)
-                if(this.historias[i].getID() == id) {
+            for(var i = 0; i < vmBacklog.historias.length; i++)
+                if(vmBacklog.historias[i].getID() == id) {
                     return false;
                 }
              
@@ -68,15 +72,26 @@ var vmBacklog = (function() {
             return true;
         },
         parseHistoriaFromJSON(respuesta){
-            var historia = new HistoriaUsuario(respuesta["id"],respuesta["descripcion"],respuesta["valor"],respuesta["coste"]);
-            return historia;
+            respuesta = JSON.parse(respuesta);
+            if(!respuesta["error"]) {
+                if(Array.isArray(respuesta)) {
+                    for(var i = 0; i < respuesta.length; i++) {
+                        var data = respuesta[i];   
+                        respuesta[i] = new HistoriaUsuario(data.nombre, data.descripcion, data.valor, data.coste);
+                    }
+                    console.log(respuesta);
+                } else {
+                    respuesta = new HistoriaUsuario(respuesta.nombre, respuesta.descripcion, respuesta.valor, respuesta.coste);
+                }
+            }
+            return respuesta;
         }
         /*
         setCallback: function(callbackName, funcion) {
-            this.callbacks[callbackName] = funcion;
+            vmBacklog.callbacks[callbackName] = funcion;
         },
         getCallback: function(callbackName) {
-            return this.callbacks[callbackName];
+            return vmBacklog.callbacks[callbackName];
         },
         callbacks: {}
         */

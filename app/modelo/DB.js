@@ -9,19 +9,24 @@ ________  __________
 var DB = (function(){
     'use strict';
     return {
-        init: function(IP) {
-            this.IP = IP;
-            this.AJAX = DB.createAjaxObj();
+        init: function(URL) {
+            DB.URL = URL;
+            DB.AJAX = DB.createAJAXObj();
         },
-        sendHistoria: function(historia) {
+        parseInfoToQuery: function(historia, op) {
             // Esto iría en el vm
-            var formData = new FormData();
-            formData.append("id", historia.getID());
-            formData.append("coste", historia.getCoste());
-            formData.append("valor", historia.getValor());
-            formData.append("descripcion", historia.getDescripcion());
+            var formData = "?";
+            formData += "coste=" + historia.getCoste();
+            formData += "&valor=" + historia.getValor();
+            formData += "&descripcion=" + historia.getDescripcion();
+            formData += "&id=" + historia.getID();
+            
+            if(op)
+                formData += "&op=" + op;                
+            
+            return formData;
         },
-        createAjaxObj: function(accion) {
+        createAJAXObj: function() {
             var xhttp;
             if(window.XMLHttpRequest) {
                 xhttp = new XMLHttpRequest();
@@ -30,16 +35,51 @@ var DB = (function(){
                 xhttp = new ActiveXObject("Microsoft.XMLHTTP");
             }
 
-            xhttp.onreadystatechange = function(accion) {
-                if(xhttp.readyState == 4 && xhttp.status == 200) {
-                    accion(xhttp.responseText);
-                }
-            };
-
             return xhttp;
         },
-        callbacks: {
-
+        setCallback: function(callback) {
+            DB.callback = callback;
+            DB.AJAX.onreadystatechange = function(callback) {
+                if(DB.AJAX.readyState == 4 && DB.AJAX.status == 200) {
+                    DB.callback(DB.AJAX.responseText);
+                }
+            }
+        },
+        consulta: function(query) {
+            if(DB.AJAX == null) {
+                console.error("Sin objeto AJAX. Error crítico.");
+                
+                return;
+            }
+            
+            switch (query.op) {
+                case "GETALL":
+                    DB.AJAX.open("GET", DB.URL, true);
+                    DB.AJAX.send();
+                    break;
+                case "GET":
+                    DB.AJAX.open("GET", DB.URL+query.data.id, true);
+                    DB.AJAX.send();
+                    break;
+                case "POST":
+                    var data = DB.parseInfoToQuery(query.data);
+                    DB.AJAX.open("POST", DB.URL+data, true);
+                    DB.AJAX.send();
+                    break;
+                case "DELETE":
+                    var data = DB.parseInfoToQuery(query.data, "DELETE");
+                    DB.AJAX.open("POST", DB.URL+data, true);
+                    DB.AJAX.send();
+                    break;
+                case "PATCH":
+                    var data = DB.parseInfoToQuery(query.data, "PATCH");
+                    DB.AJAX.open("POST", DB.URL+data, true);
+                    DB.AJAX.send();
+                    break;
+                default:
+                    console.error("Método desconocido");
+                    break;
+            }
         }
-    }
+    };
 })();

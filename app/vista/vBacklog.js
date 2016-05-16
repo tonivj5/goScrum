@@ -20,6 +20,13 @@ var vBacklog = (function() {
             console.log("Vista rulando");
         },
         acciones: {
+            addHistorias: function(historias) {
+                var divHistorias = document.getElementById("divHistoriasUsuario");
+                for(var i = 0; i < historias.length; i++) {
+                    var nodeHistoria = vBacklog.acciones.drawHistoria(historias[i]);
+                    divHistorias.appendChild(nodeHistoria);
+                }
+            },
             addHistoria: function(historia) {
                 var divHistorias = document.getElementById("divHistoriasUsuario"); 
                 var nodeHistoria = vBacklog.acciones.drawHistoria(historia);

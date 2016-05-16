@@ -12,40 +12,42 @@ var bBacklog = (function() {
         init: function() {
             vBacklog.init();
             vmBacklog.init();
+            DB.init("http://localhost:5000/historias/");
+            bBacklog.eventos.getAllHistorias();
         },
         setAfterCallback: function(afterCallback){
-            this.afterCallback=afterCallback;
+            bBacklog.afterCallback=afterCallback;
         },
         callback: function(respuesta){
-            if(vmBacklog.checkAnswer(respuesta)){
-                var historia = vmBacklog.parseHistoriaFromJSON(respuesta);
+            respuesta = vmBacklog.parseHistoriaFromJSON(respuesta);
+            if(vmBacklog.checkAnswer(respuesta)) {
                 //sera un metodo del atributo eventos
-                this.afterCallback(historia);
-            }else{
+                bBacklog.afterCallback(respuesta);
+            } else {
                 //mejorar vista de errores
-                alert("Error"+resuesta["error"]);
+                alert("Error " + respuesta["error"]);
             }
         },
         eventos: {
+            getAllHistorias: function() {
+                bBacklog.setAfterCallback(function(historias) {
+                    vmBacklog.addHistorias(historias);
+                    vBacklog.acciones.addHistorias(historias);
+                });
+                DB.setCallback(bBacklog.callback);
+                DB.consulta({op: "GETALL", data: null});  
+            },
             tryAddHistoria: function(e) {
                 e.preventDefault();
                 var form = e.target;
                 
                 var historia = vBacklog.acciones.getHistoriaFromForm();
                 
-                if(vmBacklog.checkID(historia.getID(), null)){
+                if(vmBacklog.checkID(historia.getID(), null)) {
                     bBacklog.setAfterCallback(bBacklog.eventos.addHistoria);
-                
+                    DB.setCallback(bBacklog.callback);
+                    DB.consulta({op: "POST", data: historia});
                     //llamada AJAX que siempre llama ha callback
-                    
-                    //solo de prueba---------------------------------------------
-                    var object = {"id":historia.getID(),
-                                       "descripcion":historia.getDescripcion(),
-                                       "valor":historia.getValor(),
-                                       "coste":historia.getCoste()};
-                    console.log(object);
-                    bBacklog.callback(object);
-                    //-----------------------------------------------------------
                     
                 } else {
                     alert("El nombre de la historia ya existe");
@@ -62,16 +64,10 @@ var bBacklog = (function() {
                 //para la prueba
                 var historia = vmBacklog.getHistoriaByID(id);
                 //--------------------------
-                
+                DB.setCallback(bBacklog.callback);
                 bBacklog.setAfterCallback(bBacklog.eventos.removeHistoria);
+                DB.consulta({op: "DELETE", data: historia});
                 //llamada AJAX que siempre llama ha callback
-                
-                //solo de prueba---------------------------------------------
-                bBacklog.callback({"id":historia.getID(),
-                                       "descripcion":historia.getDescripcion(),
-                                       "valor":historia.getValor(),
-                                       "coste":historia.getCoste()});
-                //-----------------------------------------------------------
             },
             removeHistoria: function(historia) {
                 vmBacklog.removeHistoria(historia);
@@ -87,13 +83,9 @@ var bBacklog = (function() {
                 if(vmBacklog.checkID(historia.getID(), oldID)){
                     bBacklog.setAfterCallback(bBacklog.eventos.updateHistoria);
                     //llamada AJAX que siempre llama ha callback
-            
-                    //solo de prueba---------------------------------------------
-                    bBacklog.callback({"id":historia.getID(),
-                                       "descripcion":historia.getDescripcion(),
-                                       "valor":historia.getValor(),
-                                       "coste":historia.getCoste()});
-                    //-----------------------------------------------------------
+                    DB.setCallback(bBacklog.callback);
+                    DB.consulta({op: "PATCH", data: historia});
+
                 } else {
                     alert("El nombre de la historia ya existe");
                 }
