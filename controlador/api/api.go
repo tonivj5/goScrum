@@ -9,29 +9,45 @@ import (
 	"strings"
 
 	"github.com/xxxtonixxx/goScrum/sv/modelo"
-	"gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
 
-var session, _ = mgo.Dial("")
 var db = modelo.New("localhost:27017", "goScrum")
 var c = db.SelectCollection("historias")
 
 func GetAllHistorias(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Devolviendo todas las historias...")
-	var historias []modelo.Historia
-	c.Find(bson.M{}).All(&historias)
 	e := json.NewEncoder(w)
-	e.Encode(historias)
+	if r.Method == "GET" {
+		fmt.Println("Devolviendo todas las historias...")
+		var historias []modelo.Historia
+		err := c.Find(bson.M{}).All(&historias)
+
+		if err != nil {
+			e.Encode(&modelo.Error{Error: err.Error()})
+		} else if len(historias) == 0 {
+			e.Encode(&modelo.Error{Error: "No hay historias"})
+		} else {
+			e.Encode(historias)
+		}
+
+	} else {
+		e.Encode(modelo.Error{Error: "You have used an incorrect method - For other methods use '/historias/'"})
+	}
 }
 
 func SelectMethodQuery(w http.ResponseWriter, r *http.Request) {
-	fmt.Println("Conectado")
+	fmt.Println("Conectado", r.Header.Get("Host"))
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+	w.Header().Set("Access-Control-Allow-Methods", "GET, POST, DELETE, PATCH")
+	w.Header().Set("Content-Type", "text/json; charset=utf-8")
 	encoder := json.NewEncoder(w)
 	URL, _ := url.QueryUnescape(r.RequestURI)
 	path := parseURL(URL)
 
 	fmt.Print("Método ")
+	var data *modelo.Historia
+	var errorBD *modelo.Error
+
 	switch r.Method {
 	case "GET":
 		fmt.Println("GET")
@@ -39,26 +55,48 @@ func SelectMethodQuery(w http.ResponseWriter, r *http.Request) {
 			GetAllHistorias(w, r)
 			return
 		}
-		id := path[1]
-		MethodGet(encoder, id)
+
+		nombre := path[1]
+		data, errorBD = MethodGet(nombre)
 	case "POST":
-		fmt.Println("POST")
-		data := parseValuesFromRequest(r)
-		MethodPost(encoder, data)
+		values, control := parseValuesFromRequest(r)
+		switch control["op"] {
+		case "PATCH":
+			fmt.Println("PATCH")
+			fmt.Println(path)
+			data, errorBD = MethodPatch(values, control["id"])
+		case "DELETE":
+			fmt.Println("DELETE")
+			data, errorBD = MethodDelete(control["id"])
+		default:
+			fmt.Println("POST")
+			fmt.Println(values)
+			data, errorBD = MethodPost(values)
+		}
+		/*
+			case "PATCH":
+				fmt.Println("PATCH")
+				id := path[1]
+				fmt.Println(path)
+				values, _ := parseValuesFromRequest(r)
+				data, errorBD = MethodPatch(values, id)
 
-	case "PATCH":
-		fmt.Println("PATCH")
-		id := path[1]
-		fmt.Println(path)
-		data := parseValuesFromRequest(r)
-		MethodPatch(encoder, data, id)
-
-	case "DELETE":
-		fmt.Println("DELETE")
-		id := path[1]
-		MethodDelete(encoder, id)
+			case "DELETE":
+				fmt.Println("DELETE")
+				id := path[1]
+				data, errorBD = MethodDelete(id)
+		*/
 	default:
 		fmt.Println("DESCONOCIDO")
+		return
+	}
+
+	if errorBD != nil {
+		encoder.Encode(*errorBD)
+	} else if data != nil {
+		encoder.Encode(*data)
+	} else {
+		encoder.Encode(modelo.Error{Error: "¡Error importante del SERVIDOR!"})
 	}
 }
 
@@ -74,36 +112,79 @@ func parseURL(uri string) []string {
 	return path
 }
 
-func MethodDelete(e *json.Encoder, id string) {
-	err := c.RemoveId(id)
+func MethodGet(nombre string) (*modelo.Historia, *modelo.Error) {
+	var h modelo.Historia
+	err := c.Find(bson.M{"nombre": nombre}).One(&h)
+
 	if err != nil {
-		fmt.Println(err)
-		errorDelete := modelo.Error{Error: err.Error()}
-		e.Encode(errorDelete)
+		fmt.Printf("Registro %s no encontrado\n", nombre)
+		errorBD := modelo.Error{Error: err.Error()}
+		return nil, &errorBD
 	}
+
+	fmt.Println(h)
+	return &h, nil
 }
 
-func MethodPatch(e *json.Encoder, data *bson.M, id string) {
-	err := c.UpdateId(id, bson.M{"$set": data})
-	if err != nil {
-		errorPatch := modelo.Error{Error: err.Error()}
-		e.Encode(errorPatch)
-	}
-}
-
-func MethodGet(e *json.Encoder, id string) {
-	var data bson.M
-	err := c.Find(bson.M{"_id": id}).One(&data)
+func MethodGetByID(id string) (*modelo.Historia, *modelo.Error) {
+	var h modelo.Historia
+	err := c.Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&h)
 
 	if err != nil {
 		fmt.Printf("Registro %s no encontrado\n", id)
 		errorBD := modelo.Error{Error: err.Error()}
-		e.Encode(errorBD)
-	} else {
-		fmt.Println(data)
-		e.Encode(data)
+		return nil, &errorBD
 	}
 
+	fmt.Println(h)
+	return &h, nil
+}
+
+func MethodPost(data map[string]interface{}) (*modelo.Historia, *modelo.Error) {
+	n, _ := c.Find(bson.M{"nombre": data["nombre"]}).Count()
+	fmt.Println(n)
+	if n == 0 {
+		err := c.Insert(data)
+		if err != nil {
+			fmt.Println(err)
+			errorBD := modelo.Error{Error: err.Error()}
+			return nil, &errorBD
+		}
+	} else {
+		return nil, &modelo.Error{Error: "Nombre ya existente en la base de datos"}
+	}
+
+	var h modelo.Historia
+	c.Find(data).One(&h)
+	fmt.Println(h)
+	return &h, nil
+}
+
+func MethodPatch(data map[string]interface{}, id string) (*modelo.Historia, *modelo.Error) {
+	err := c.Update(bson.M{"_id": bson.ObjectIdHex(id)}, bson.M{"$set": data})
+	fmt.Println("El id es:", id)
+	if err != nil {
+		fmt.Println(err)
+		errorBD := modelo.Error{Error: err.Error()}
+		return nil, &errorBD
+	}
+
+	h, errorBD := MethodGet(data["nombre"].(string))
+
+	return h, errorBD
+}
+
+func MethodDelete(id string) (*modelo.Historia, *modelo.Error) {
+	h, errorBD := MethodGetByID(id)
+	err := c.RemoveId(bson.ObjectIdHex(id))
+	if err != nil {
+		fmt.Println(err)
+		errorBD := modelo.Error{Error: err.Error()}
+
+		return nil, &errorBD
+	}
+
+	return h, errorBD
 }
 
 /*func MethodGetByCampos(e *json.Encoder, campos *bson.M, id string) {
@@ -121,38 +202,25 @@ func MethodGet(e *json.Encoder, id string) {
 
 }*/
 
-func MethodPost(e *json.Encoder, data *bson.M) {
-	err := c.Insert(data)
-	if err != nil {
-		fmt.Println(err)
-		errorPost := modelo.Error{Error: err.Error()}
-		e.Encode(errorPost)
-	} else {
-		var h modelo.Historia
-		c.FindId(data).One(&h)
-		e.Encode(h)
-	}
-	fmt.Println(data)
-}
-
-func parseValuesFromRequest(r *http.Request) *bson.M {
+func parseValuesFromRequest(r *http.Request) (map[string]interface{}, map[string]string) {
 	r.ParseForm()
-	data := bson.M{}
+	control := make(map[string]string, 0)
+	data := make(map[string]interface{}, 0)
 	for k, v := range r.Form {
 		switch k {
 		case "coste", "valor":
 			num, _ := strconv.Atoi(v[0])
 			data[k] = num
-		case "nombre":
-			k = "_id"
-			fallthrough
+		case "op", "id":
+			control[k] = v[0]
 		default:
 			data[k] = v[0]
 		}
-
-		fmt.Println("Clave", k)
-		fmt.Println("Valor", v[0])
+		/*
+			fmt.Println("Clave", k)
+			fmt.Println("Valor", v[0])
+		*/
 	}
 
-	return &data
+	return data, control
 }

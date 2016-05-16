@@ -1,12 +1,17 @@
 package modelo
 
-import "fmt"
+import (
+	"fmt"
+
+	"gopkg.in/mgo.v2/bson"
+)
 
 type Historia struct {
-	Nombre      string `json:"nombre" bson:"_id"`
-	Valor       int    `json:"valor" bson:"valor"`
-	Coste       int    `json:"coste" bson:"coste"`
-	Descripcion string `json:"descripcion" bson:"descripcion"`
+	ID          bson.ObjectId `json:"id" bson:"_id"`
+	Nombre      string        `json:"nombre" bson:"nombre"`
+	Valor       int           `json:"valor" bson:"valor"`
+	Coste       int           `json:"coste" bson:"coste"`
+	Descripcion string        `json:"descripcion" bson:"descripcion"`
 }
 
 func (h *Historia) String() string {
