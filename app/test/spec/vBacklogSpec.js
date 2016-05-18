@@ -1,0 +1,1 @@
+// FIXME: Hay que desacoplar los elementos del DOM definidos en vBacklog para poder realizar test unitarios
