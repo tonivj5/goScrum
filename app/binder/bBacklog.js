@@ -12,7 +12,7 @@ var bBacklog = (function() {
         init: function() {
             vBacklog.init();
             vmBacklog.init();
-            DB.init("http://192.168.6.243:5000/historias/");
+            DB.init("http://localhost:5000/historias/");
             bBacklog.eventos.getAllHistorias();
         },
         setAfterCallback: function(afterCallback){
@@ -23,7 +23,7 @@ var bBacklog = (function() {
             if(vmBacklog.checkAnswer(respuesta)) {
                 bBacklog.afterCallback(respuesta);
             } else {
-                //mejorar vista de errores
+                // TODO: mejorar vista de errores
                 alert("Error " + respuesta["error"]);
             }
         },
@@ -42,16 +42,9 @@ var bBacklog = (function() {
                 
                 var historia = vBacklog.acciones.getHistoriaFromForm();
                 
-               // if(vmBacklog.checkID(historia.getID(), null)) {
-                    bBacklog.setAfterCallback(bBacklog.eventos.addHistoria);
-                    DB.setCallback(bBacklog.callback);
-                    DB.consulta({op: "POST", data: historia});
-            
-                /*
-                } else {
-                    alert("El nombre de la historia ya existe");
-                }
-                */
+                bBacklog.setAfterCallback(bBacklog.eventos.addHistoria);
+                DB.setCallback(bBacklog.callback);
+                DB.consulta({op: "POST", data: historia});
             },
             addHistoria: function(historia){
                 vmBacklog.addHistoria(historia);
@@ -59,7 +52,7 @@ var bBacklog = (function() {
                 vBacklog.acciones.hideForm();
             },
             tryRemoveHistoria : function(nodeHistoria){
-                //intentar cambiar el parametro pasado para que solo sea la id y no todo el dom
+                // TODO: Intentar cambiar el parametro pasado para que solo sea la id y no todo el nodo
                 var id = nodeHistoria.getAttribute("id");
                 
                 var historia = vmBacklog.getHistoriaByID(id);
@@ -77,16 +70,9 @@ var bBacklog = (function() {
                
                 var historia = vBacklog.acciones.getHistoriaFromForm();
                 
-               // if(vmBacklog.checkID(historia.getID(), oldID)){
                 bBacklog.setAfterCallback(bBacklog.eventos.updateHistoria);
                 DB.setCallback(bBacklog.callback);
                 DB.consulta({op: "PATCH", data: historia});
-
-               /*
-                } else {
-                    alert("El nombre de la historia ya existe");
-                }
-                */
             },
             updateHistoria: function(historia){
                 var newNodeHistoria = vBacklog.acciones.drawHistoria(historia);
