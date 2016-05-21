@@ -1,15 +1,11 @@
-package test
+package modelo
 
-import (
-	"testing"
+import "testing"
 
-	"github.com/xxxtonixxx/goScrum/sv/modelo"
-)
-
-var historia modelo.Historia
+var historia Historia
 
 func TestHistoria(t *testing.T) {
-	historia := modelo.Historia{
+	historia := Historia{
 		ID:          "123abc",
 		Nombre:      "pepe",
 		Valor:       100,
@@ -25,11 +21,11 @@ func TestHistoria(t *testing.T) {
 	}
 
 	if historia.Valor != 100 {
-		t.Error("%d no es igual a 100\n", historia.Valor)
+		t.Error(historia.Valor, " no es igual a 100")
 	}
 
 	if historia.Coste != 200 {
-		t.Error("%d no es igual a 200\n", historia.Coste)
+		t.Error(historia.Coste, " no es igual a 200")
 	}
 
 	if historia.Descripcion != "esto es una prueba" {

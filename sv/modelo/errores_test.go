@@ -1,15 +1,13 @@
-package test
+package modelo
 
 import (
 	"testing"
-
-	"github.com/xxxtonixxx/goScrum/sv/modelo"
 )
 
-var error modelo.Error
+var error Error
 
 func TestError(t *testing.T) {
-	error := modelo.Error{
+	error := Error{
 		Error: "esto es una prueba de error",
 	}
 	if error.Error != "esto es una prueba de error" {
