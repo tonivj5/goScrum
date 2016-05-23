@@ -1,12 +1,17 @@
 package modelo
 
-import "gopkg.in/mgo.v2"
+import (
+	"fmt"
+
+	"gopkg.in/mgo.v2"
+)
 
 type DB struct {
 	Connection *mgo.Database
 	name       string
 	ip         string
 	session    *mgo.Session
+	conectado  bool
 }
 
 func New(ip, db string) *DB {
@@ -25,10 +30,19 @@ func (db *DB) SelectCollection(collection string) *mgo.Collection {
 }
 
 func (db *DB) connectDB() {
-	db.session, _ = mgo.Dial(db.ip)
-	db.Connection = db.session.DB(db.name)
+	var err error
+	db.session, err = mgo.Dial(db.ip)
+	if err != nil {
+		fmt.Println("Ha ocurrido un error al conectar la DB", err)
+	} else {
+		db.conectado = true
+		db.Connection = db.session.DB(db.name)
+	}
+
 }
 
+// CloseConnection does someting
 func (db *DB) CloseConnection() {
 	db.session.Close()
+	db.conectado = false
 }
