@@ -79,9 +79,9 @@ var vBacklog = (function() {
             getHistoriaFromNode: function(nodeHistoria) {
                 var id = nodeHistoria.getAttribute("id"),
                     nombre = nodeHistoria.querySelector(".nombreHU").innerHTML,
-                    descripcion = nodeHistoria.querySelector("descripcionHU").innerHTML,
-                    valor = nodeHistoria.querySelector("valorHU").innerHTML,
-                    coste = nodeHistoria.querySelector("costeHU").innerHTML;
+                    descripcion = nodeHistoria.querySelector(".descripcionHU").innerHTML,
+                    valor = nodeHistoria.querySelector(".valorHU").innerHTML,
+                    coste = nodeHistoria.querySelector(".costeHU").innerHTML;
                
                 console.log("ID de la historia eliminada: " + id);
                 
@@ -118,10 +118,10 @@ var vBacklog = (function() {
                 vBacklog.DOM.formNewHistoria.setAttribute("class","drawFormWhenNewHistoria");
                 vBacklog.DOM.fondo.setAttribute("class","drawBackgroundWhenNewHistoria");          
                
-                vBacklog.DOM.formulario.inputs.txtNombre.value = nodeHistoria.getElementsByClassName("nombreHU")[0].innerHTML;
-                vBacklog.DOM.formulario.inputs.txtCoste.value = nodeHistoria.getElementsByClassName("costeHU")[0].innerHTML;
-                vBacklog.DOM.formulario.inputs.txtValor.value = nodeHistoria.getElementsByClassName("valorHU")[0].innerHTML;
-                vBacklog.DOM.formulario.inputs.txtDesc.value = nodeHistoria.getElementsByClassName("descripcionHU")[0].innerHTML;
+                vBacklog.DOM.formulario.inputs.txtNombre.value = nodeHistoria.querySelector(".nombreHU").innerHTML;
+                vBacklog.DOM.formulario.inputs.txtCoste.value = nodeHistoria.querySelector(".costeHU").innerHTML;
+                vBacklog.DOM.formulario.inputs.txtValor.value = nodeHistoria.querySelector(".valorHU").innerHTML;
+                vBacklog.DOM.formulario.inputs.txtDesc.value = nodeHistoria.querySelector(".descripcionHU").innerHTML;
                 
             },
             hideForm: function() {
