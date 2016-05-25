@@ -1,7 +1,7 @@
 describe("Una historia de usuario", function() {
     var historia;
     
-    beforeEach(function() {
+    beforeAll(function() {
         historia = new HistoriaUsuario("1234abcd", "prueba", "historia de prueba", 100, 20);
     });
     
