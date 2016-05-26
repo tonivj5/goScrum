@@ -27,6 +27,7 @@ var vBacklog = (function() {
             vBacklog.DOM.formulario.inputs.btnCancel = document.getElementById("btnCancel");
             vBacklog.DOM.formulario.inputs.btnReset = document.getElementById("btnReset");
             // Cajetines de texto
+            vBacklog.DOM.formulario.titulo = document.getElementsByTagName("h3")[0];
             vBacklog.DOM.formulario.inputs.txtNombre = document.getElementById("txtNombre");
             vBacklog.DOM.formulario.inputs.txtCoste = document.getElementById("txtCoste");
             vBacklog.DOM.formulario.inputs.txtValor = document.getElementById("txtValor");
@@ -66,14 +67,16 @@ var vBacklog = (function() {
                 var domObject = document.createElement("div");
                 domObject.setAttribute("class", "historia");
                 domObject.setAttribute("id", id);
-                domObject.innerHTML = "<ul>"+
-                                            "<li>nombre = <span class='nombreHU'>"+historia.getNombre()+"</span></li>"+
-                                            "<li>valor = <span class='valorHU'>"+historia.getValor()+"</span></li>"+
-                                            "<li>coste = <span class='costeHU'>"+historia.getCoste()+"</span></li>"+
-                                            "<li>descripcion = <span class='descripcionHU'>"+historia.getDescripcion()+"</span></li>"+
+                domObject.innerHTML = "<h4 class='nombreHU'>"+historia.getNombre()+"</h4>"+
+                                        "<hr/>"+
+                                        "<ul>"+
+                                            "<li>valor : <span class='valorHU'>"+historia.getValor()+"</span></li>"+
+                                            "<li>coste : <span class='costeHU'>"+historia.getCoste()+"</span></li>"+
+                                            "<li>descripcion : <span class='descripcionHU'>"+historia.getDescripcion()+"</span></li>"+
                                         "</ul>"+
-                                        "<button id='btnUpdateHU"+id+"' onclick='vBacklog.acciones.showFormUpdateHistoria(this.parentNode)'>Modificar</button>"+
-                                        "<button id='btnRemoveHU"+id+"' onclick='bBacklog.eventos.tryRemoveHistoria(this.parentNode)'>Borrar</button>";
+                                        "<button id='btnUpdateHU"+id+"' class='update' onclick='vBacklog.acciones.showFormUpdateHistoria(this.parentNode)'></button>"+
+                                        "<button id='btnRemoveHU"+id+"' class='remove' onclick='bBacklog.eventos.tryRemoveHistoria(this.parentNode)'></button>"+
+                                        "<br/>";
                 return domObject;
             },
             getHistoriaFromNode: function(nodeHistoria) {
@@ -101,6 +104,7 @@ var vBacklog = (function() {
             showFormNewHistoria: function() {
                 vBacklog.DOM.formulario.inputs.btnReset.click();
                 vBacklog.acciones.focus(vBacklog.DOM.formulario.inputs.txtNombre);
+                vBacklog.DOM.formulario.titulo.innerHTML = "Añadir Historia";
 
                 vBacklog.DOM.formulario.node.onsubmit = bBacklog.eventos.tryAddHistoria;
                 vBacklog.DOM.formulario.inputs.btnApply.setAttribute("onclick", "");
@@ -111,6 +115,7 @@ var vBacklog = (function() {
                 vBacklog.acciones.focus(vBacklog.DOM.formulario.inputs.txtNombre);
                 var id = nodeHistoria.getAttribute("id");
                 vBacklog.DOM.formulario.node.onsubmit = bBacklog.eventos.tryUpdateHistoria;
+                vBacklog.DOM.formulario.titulo.innerHTML = "Modificar Historia";
                 
                 vBacklog.DOM.formulario.inputs.idHistoria.innerHTML = id;
                 console.log(id+" en vBacklog");
