@@ -3,18 +3,32 @@ package main
 import (
 	"net/http"
 
-	"github.com/xxxtonixxx/goScrum/sv/controlador"
-	"github.com/xxxtonixxx/goScrum/sv/controlador/api"
+	ctrl "github.com/xxxtonixxx/goScrum/controlador"
+	"github.com/xxxtonixxx/goScrum/controlador/api"
 )
 
 func main() {
-	mux := http.NewServeMux()
-	mux.HandleFunc("/historias", api.GetAllHistorias)
-	mux.HandleFunc("/historias/", api.SelectMethodQuery)
+	muxAPI := http.NewServeMux()
+	muxAPI.HandleFunc("/historias", api.GetAllHistorias)
+	muxAPI.HandleFunc("/historias/", api.SelectMethodQuery)
 
-	server := ctrl.Server{
+	svAPI := ctrl.Server{
 		AddrListen: ":5000",
-		Mux:        mux,
+		Mux:        muxAPI,
 	}
-	server.Run()
+
+	go svAPI.Run()
+
+	pathWeb := "public/"
+	muxWeb := http.NewServeMux()
+	muxWeb.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		http.ServeFile(w, r, pathWeb+r.URL.Path[1:])
+	})
+
+	serverWeb := ctrl.Server{
+		AddrListen: ":8080",
+		Mux:        muxWeb,
+	}
+
+	serverWeb.Run()
 }

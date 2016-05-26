@@ -8,7 +8,7 @@ import (
 	"strconv"
 	"strings"
 
-	"github.com/xxxtonixxx/goScrum/sv/modelo"
+	"github.com/xxxtonixxx/goScrum/modelo"
 	"gopkg.in/mgo.v2/bson"
 )
 
@@ -141,9 +141,9 @@ func MethodGetByID(id string) (*modelo.Historia, *modelo.Error) {
 }
 
 func MethodPost(data map[string]interface{}) (*modelo.Historia, *modelo.Error) {
-	n, _ := c.Find(bson.M{"nombre": data["nombre"]}).Count()
-	fmt.Println(n)
-	if n == 0 {
+	nombre := data["nombre"].(string)
+	_, err := MethodGet(nombre)
+	if err != nil {
 		err := c.Insert(data)
 		if err != nil {
 			fmt.Println(err)
@@ -161,6 +161,15 @@ func MethodPost(data map[string]interface{}) (*modelo.Historia, *modelo.Error) {
 }
 
 func MethodPatch(data map[string]interface{}, id string) (*modelo.Historia, *modelo.Error) {
+	h, _ := MethodGetByID(id)
+	nombre := data["nombre"].(string)
+	if h.Nombre != nombre {
+		_, err := MethodGet(nombre)
+		if err == nil {
+			return nil, &modelo.Error{Error: "Nombre ya existente en la base de datos"}
+		}
+	}
+
 	err := c.Update(bson.M{"_id": bson.ObjectIdHex(id)}, bson.M{"$set": data})
 	fmt.Println("El id es:", id)
 	if err != nil {
@@ -169,7 +178,7 @@ func MethodPatch(data map[string]interface{}, id string) (*modelo.Historia, *mod
 		return nil, &errorBD
 	}
 
-	h, errorBD := MethodGet(data["nombre"].(string))
+	h, errorBD := MethodGet(nombre)
 
 	return h, errorBD
 }

@@ -1,4 +1,4 @@
-package ctrl
+package controlador
 
 import (
 	"fmt"
@@ -13,5 +13,4 @@ type Server struct {
 func (s *Server) Run() {
 	fmt.Println("Se está escuchando en", s.AddrListen)
 	http.ListenAndServe(s.AddrListen, s.Mux)
-
 }
