@@ -1,3 +1,0 @@
-- Asginar a una historia de usuario un color aleatorio y que todas sus tareas tengan ese mismo color para identificarlas.
-- Hacer actualizaciones en vivo con WebSocket. Si un usuario cambia algo en una vista, todos los que estén viendo esa vista se les actualizará automáticamente
-- Intentar reutilizar HTML embebiendo varios documentos desde el SV
