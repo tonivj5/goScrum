@@ -54,11 +54,13 @@ var vBacklog = (function() {
                 vBacklog.DOM.divHistorias.appendChild(nodeHistoria);
             },
             removeHistoria: function(historia) {
-                var nodeHistoria = document.getElementById(historia.getID());
+                var id = historia.getID();
+                var nodeHistoria = vBacklog.DOM.divHistorias.querySelector('[id="'+id+'"]');
                 vBacklog.DOM.divHistorias.removeChild(nodeHistoria);
             },
             updateHistoria: function(newNodeHistoria) {
-                var oldNodeHistoria = document.getElementById(newNodeHistoria.getAttribute("id"));
+                var id = newNodeHistoria.getAttribute("id");
+                var oldNodeHistoria = vBacklog.DOM.divHistorias.querySelector('[id="'+id+'"]');
                 var padre = oldNodeHistoria.parentNode;
                 padre.replaceChild(newNodeHistoria, oldNodeHistoria)
             },
