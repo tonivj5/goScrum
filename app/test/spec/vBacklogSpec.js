@@ -84,7 +84,42 @@ describe("La vista del Backlog", function() {
         var historiaP1 = crearSpyHistoria(1, "prueba", 100, 20, "esto es una historia de prueba");
 
         vBacklog.acciones.addHistoria(historiaP1);
-        
         vBacklog.acciones.removeHistoria(historiaP1);
+        var nodeHistoria = vBacklog.DOM.divHistorias.querySelector('[id="1"]');
+        
+        expect(nodeHistoria).toBeNull();
+    });
+    
+    it("debería modificar la historia, eliminando el nodo antiguo y reemplezándolo con el nuevo (es decir, nuevo id)", function() {
+        var historiaP1 = crearSpyHistoria(1, "prueba", 100, 20, "esto es una historia de prueba");
+        var historiaP2 = crearSpyHistoria(1, "prueba 2", 200, 40, "esto es una historia de prueba 2");
+        
+        vBacklog.acciones.addHistoria(historiaP1);
+        var nodeHistoriaOutToDate = vBacklog.DOM.divHistorias.querySelector('[id="1"]');
+        var newNodeHistoriaUpdate = vBacklog.acciones.drawHistoria(historiaP2);
+        vBacklog.acciones.updateHistoria(newNodeHistoriaUpdate);
+        var nodeHistoriaUpdated = vBacklog.DOM.divHistorias.querySelector('[id="1"]');
+        var nombre = nodeHistoriaUpdated.querySelector(".nombreHU").innerHTML;
+        var coste = nodeHistoriaUpdated.querySelector(".costeHU").innerHTML;
+        var valor = nodeHistoriaUpdated.querySelector(".valorHU").innerHTML;
+        var descripcion = nodeHistoriaUpdated.querySelector(".descripcionHU").innerHTML;
+        
+        expect(nodeHistoriaOutToDate).not.toBe(nodeHistoriaUpdated);
+        expect(nombre).toBe("prueba 2");
+        expect(coste).toBe("200");
+        expect(valor).toBe("40");
+        expect(descripcion).toBe("esto es una historia de prueba 2");
+    });
+    
+    it("debería devolver un objeto historia", function() {
+        var historiaP1 = crearSpyHistoria(1, "prueba", 100, 20, "esto es una historia de prueba");
+        var nodeHistoria = vBacklog.acciones.drawHistoria(historiaP1);
+        var historiaReal = vBacklog.acciones.getHistoriaFromNode(nodeHistoria);
+        
+        expect(historiaReal.getID()).toBe("1");
+        expect(historiaReal.getNombre()).toBe("prueba");
+        expect(historiaReal.getDescripcion()).toBe("esto es una historia de prueba"); 
+        expect(historiaReal.getValor()).toBe(20);
+        expect(historiaReal.getCoste()).toBe(100) ;
     });
 });
