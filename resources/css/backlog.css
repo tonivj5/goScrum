@@ -1,3 +1,57 @@
+* {
+  margin: 0px;
+  padding: 0px;
+}
+
+ul {
+  list-style-type: none;
+}
+
+#formNewHistoria {
+  margin: 10px;
+  padding: 10px;
+  border-radius: 8px;
+  background-color: #B0B0B0;
+  margin: auto;
+  top: 30%;
+  left: 37%;
+}
+#formNewHistoria h3 {
+  margin: 5px;
+}
+#formNewHistoria * {
+  margin-bottom: 2px;
+}
+#formNewHistoria ul label {
+  float: left;
+  width: 35%;
+}
+#formNewHistoria ul input {
+  width: 60%;
+}
+#formNewHistoria ul textarea {
+  width: 60%;
+}
+#formNewHistoria #btnCancel, #formNewHistoria #btnApply {
+  border-radius: 4px;
+  float: right;
+}
+#formNewHistoria #btnReset {
+  width: 30px;
+  height: 30px;
+  background-image: url(../img/limpiar.png);
+  background-size: contain;
+}
+#formNewHistoria #btnApply {
+  background-color: #3cd95c;
+  border: 2px solid #31a849;
+}
+#formNewHistoria #btnCancel {
+  background-color: #e4685d;
+  border: 2px solid #CC0000;
+  color: white;
+}
+
 body {
   background-image: url("../img/fondoBacklog.jpg");
   background-size: cover;
@@ -14,11 +68,10 @@ body {
 }
 
 #wrapper {
-  border: 1px solid white;
+  margin: 10px;
+  padding: 20px;
+  border: 0px;
   display: flex;
-  margin-left: auto;
-  margin-right: auto;
-  padding: 10px;
   color: white;
 }
 #wrapper .contenedor {
@@ -27,7 +80,7 @@ body {
   width: 30%;
   color: white;
 }
-#wrapper #divTareas {
+#wrapper #divHistoriasUsuario {
   margin-right: auto;
 }
 
@@ -36,17 +89,58 @@ body {
 }
 
 .drawFormWhenNewHistoria {
-  position: absolute;
-  margin: auto;
-  top: 30%;
-  left: 37%;
-  background-color: gray;
+  position: fixed;
 }
 
 .historia {
   background-color: Gray;
+  border: 1px solid white;
+  border-radius: 4px;
   margin: 10px;
-  padding: 5px;
+  padding: 15px;
+  margin-bottom: 30px;
+}
+.historia button {
+  width: 30px;
+  height: 30px;
+  float: right;
+  margin: 2px;
+}
+.historia .remove {
+  background-image: url(../img/borrar.png);
+  background-size: contain;
+}
+.historia .update {
+  background-image: url(../img/modificar.png);
+  background-size: contain;
+}
+
+.sprintActual, .sprintCerrado {
+  background-color: Gray;
+  border: 1px solid white;
+  border-radius: 4px;
+  margin: 10px;
+  padding: 15px;
+}
+.sprintActual *, .sprintCerrado * {
+  margin: 5px;
+}
+.sprintActual p, .sprintCerrado p {
+  float: right;
+  margin-top: 10px;
+}
+
+.sprintCerrado {
+  position: relative;
+}
+.sprintCerrado span {
+  margin: 0px;
+  position: absolute;
+  background-color: rgba(0, 0, 0, 0.2);
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
 }
 
 /*# sourceMappingURL=backlog.css.map */
