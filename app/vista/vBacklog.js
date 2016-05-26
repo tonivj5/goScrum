@@ -87,7 +87,7 @@ var vBacklog = (function() {
                
                 console.log("ID de la historia eliminada: " + id);
                 
-                return new HistoriaUsuario(id, nombre, descripcion, valor, coste);
+                return new HistoriaUsuario(id, nombre, descripcion, parseInt(valor), parseInt(coste));
             },
             getHistoriaFromForm: function() {
                 var id = vBacklog.DOM.formulario.inputs.idHistoria.innerHTML,
@@ -133,7 +133,7 @@ var vBacklog = (function() {
             focus: function(elemento) {
               setTimeout(function() {
                     elemento.focus();
-                }, 0);  
+                }, 0);
             }
         }
     };
