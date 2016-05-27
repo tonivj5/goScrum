@@ -161,11 +161,15 @@ func MethodPost(data map[string]interface{}) (*modelo.Historia, *modelo.Error) {
 }
 
 func MethodPatch(data map[string]interface{}, id string) (*modelo.Historia, *modelo.Error) {
-	h, _ := MethodGetByID(id)
+	h, errorBD := MethodGetByID(id)
+	if errorBD != nil {
+		return nil, errorBD
+	}
+
 	nombre := data["nombre"].(string)
 	if h.Nombre != nombre {
-		_, err := MethodGet(nombre)
-		if err == nil {
+		_, errorBD = MethodGet(nombre)
+		if errorBD == nil {
 			return nil, &modelo.Error{Error: "Nombre ya existente en la base de datos"}
 		}
 	}
@@ -178,7 +182,7 @@ func MethodPatch(data map[string]interface{}, id string) (*modelo.Historia, *mod
 		return nil, &errorBD
 	}
 
-	h, errorBD := MethodGet(nombre)
+	h, errorBD = MethodGet(nombre)
 
 	return h, errorBD
 }
