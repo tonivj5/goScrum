@@ -7,6 +7,7 @@ type DB struct {
 	name       string
 	ip         string
 	session    *mgo.Session
+	conectado  bool
 }
 
 func New(ip, db string) *DB {
@@ -27,8 +28,10 @@ func (db *DB) SelectCollection(collection string) *mgo.Collection {
 func (db *DB) connectDB() {
 	db.session, _ = mgo.Dial(db.ip)
 	db.Connection = db.session.DB(db.name)
+	db.conectado = true
 }
 
 func (db *DB) CloseConnection() {
 	db.session.Close()
+	db.conectado = false
 }

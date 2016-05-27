@@ -24,6 +24,7 @@ func setupFunction() *modelo.Historia {
 	data["coste"] = 200
 	data["descripcion"] = "esto deberia funcionar"
 	historia, _ := MethodPost(data)
+
 	return historia
 }
 func tearDownFunction(id string) {
@@ -41,8 +42,8 @@ func TestMethodGetExiste(t *testing.T) {
 	nombre := "a1b2c3"
 	resultado, _ := MethodGet(nombre)
 
-	if resultado.Nombre != nombre {
-		t.Error("Deberia encontrar una historia con nombre " + nombre + " en la db")
+	if resultado.Nombre != "a1b2c3" {
+		t.Error("pete")
 	}
 }
 func TestMethodGetError(t *testing.T) {
@@ -91,7 +92,7 @@ func TestMethodPostCorrecto(t *testing.T) {
 	}
 }
 */
-func TestMethodPathCorrecto(t *testing.T) {
+func TestMethodPatchCorrecto(t *testing.T) {
 	id := "573ee289a0440229bc7ba666"
 	var data = make(map[string]interface{}, 0)
 	data["nombre"] = "b1c2a3"
@@ -106,7 +107,7 @@ func TestMethodPathCorrecto(t *testing.T) {
 	}
 }
 
-func TestMethodPathError(t *testing.T) {
+func TestMethodPatchError(t *testing.T) {
 	id := "573ee289a0440229bc7ba888"
 	var data = make(map[string]interface{}, 0)
 	data["nombre"] = "juan"

@@ -12,7 +12,7 @@ var bBacklog = (function() {
         init: function() {
             vBacklog.init();
             vmBacklog.init();
-            DB.init("http://localhost:5000/historias/");
+            DB.init("http://192.168.1.41:5000/historias/");
             bBacklog.eventos.getAllHistorias();
         },
         setAfterCallback: function(afterCallback){

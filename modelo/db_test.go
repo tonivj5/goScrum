@@ -12,6 +12,7 @@ func TestDb(t *testing.T) {
 	}
 
 	db.CloseConnection()
+
 	if db.conectado {
 		t.Error("La session no se ha cerrado")
 	}
