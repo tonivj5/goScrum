@@ -74,11 +74,10 @@ var vBacklog = (function() {
                                         "<ul>"+
                                             "<li>valor : <span class='valorHU'>"+historia.getValor()+"</span></li>"+
                                             "<li>coste : <span class='costeHU'>"+historia.getCoste()+"</span></li>"+
-                                            "<li>descripcion : <span class='descripcionHU'>"+historia.getDescripcion()+"</span></li>"+
+                                            "<li><span class='spDescripcion'>descripcion : </span><span class='descripcionHU'>"+historia.getDescripcion()+"</span></li>"+
                                         "</ul>"+
                                         "<button id='btnUpdateHU"+id+"' class='update' onclick='vBacklog.acciones.showFormUpdateHistoria(this.parentNode)'></button>"+
-                                        "<button id='btnRemoveHU"+id+"' class='remove' onclick='bBacklog.eventos.tryRemoveHistoria(this.parentNode)'></button>"+
-                                        "<br/>";
+                                        "<button id='btnRemoveHU"+id+"' class='remove' onclick='bBacklog.eventos.tryRemoveHistoria(this.parentNode)'></button>";
                 return domObject;
             },
             getHistoriaFromNode: function(nodeHistoria) {
