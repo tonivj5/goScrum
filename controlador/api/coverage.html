@@ -1,0 +1,341 @@
+
+<!DOCTYPE html>
+<html>
+	<head>
+		<meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+		<style>
+			body {
+				background: black;
+				color: rgb(80, 80, 80);
+			}
+			body, pre, #legend span {
+				font-family: Menlo, monospace;
+				font-weight: bold;
+			}
+			#topbar {
+				background: black;
+				position: fixed;
+				top: 0; left: 0; right: 0;
+				height: 42px;
+				border-bottom: 1px solid rgb(80, 80, 80);
+			}
+			#content {
+				margin-top: 50px;
+			}
+			#nav, #legend {
+				float: left;
+				margin-left: 10px;
+			}
+			#legend {
+				margin-top: 12px;
+			}
+			#nav {
+				margin-top: 10px;
+			}
+			#legend span {
+				margin: 0 5px;
+			}
+			.cov0 { color: rgb(192, 0, 0) }
+.cov1 { color: rgb(128, 128, 128) }
+.cov2 { color: rgb(116, 140, 131) }
+.cov3 { color: rgb(104, 152, 134) }
+.cov4 { color: rgb(92, 164, 137) }
+.cov5 { color: rgb(80, 176, 140) }
+.cov6 { color: rgb(68, 188, 143) }
+.cov7 { color: rgb(56, 200, 146) }
+.cov8 { color: rgb(44, 212, 149) }
+.cov9 { color: rgb(32, 224, 152) }
+.cov10 { color: rgb(20, 236, 155) }
+
+		</style>
+	</head>
+	<body>
+		<div id="topbar">
+			<div id="nav">
+				<select id="files">
+				
+				<option value="file0">github.com/xxxtonixxx/goScrum/controlador/api/api.go (52.2%)</option>
+				
+				</select>
+			</div>
+			<div id="legend">
+				<span>not tracked</span>
+			
+				<span class="cov0">not covered</span>
+				<span class="cov8">covered</span>
+			
+			</div>
+		</div>
+		<div id="content">
+		
+		<pre class="file" id="file0" style="display: none">package api
+
+import (
+        "encoding/json"
+        "fmt"
+        "net/http"
+        "net/url"
+        "strconv"
+        "strings"
+
+        "github.com/xxxtonixxx/goScrum/modelo"
+        "gopkg.in/mgo.v2/bson"
+)
+
+var db = modelo.New("localhost:27017", "goScrum")
+var c = db.SelectCollection("historias")
+
+func GetAllHistorias(w http.ResponseWriter, r *http.Request) <span class="cov0" title="0">{
+        e := json.NewEncoder(w)
+        if r.Method == "GET" </span><span class="cov0" title="0">{
+                fmt.Println("Devolviendo todas las historias...")
+                var historias []modelo.Historia
+                err := c.Find(bson.M{}).All(&amp;historias)
+
+                if err != nil </span><span class="cov0" title="0">{
+                        e.Encode(&amp;modelo.Error{Error: err.Error()})
+                }</span><span class="cov0" title="0"> else if len(historias) == 0 </span><span class="cov0" title="0">{
+                        e.Encode(&amp;modelo.Error{Error: "No hay historias"})
+                }</span><span class="cov0" title="0"> else {
+                        e.Encode(historias)
+                }</span>
+
+        }<span class="cov0" title="0"> else {
+                e.Encode(modelo.Error{Error: "You have used an incorrect method - For other methods use '/historias/'"})
+        }</span>
+}
+
+func SelectMethodQuery(w http.ResponseWriter, r *http.Request) <span class="cov0" title="0">{
+        fmt.Println("Conectado", r.Header.Get("Host"))
+        w.Header().Set("Access-Control-Allow-Origin", "*")
+        w.Header().Set("Access-Control-Allow-Methods", "GET, POST, DELETE, PATCH")
+        w.Header().Set("Content-Type", "text/json; charset=utf-8")
+        encoder := json.NewEncoder(w)
+        URL, _ := url.QueryUnescape(r.RequestURI)
+        path := parseURL(URL)
+
+        fmt.Print("Método ")
+        var data *modelo.Historia
+        var errorBD *modelo.Error
+
+        switch r.Method </span>{
+        <span class="cov0" title="0">case "GET":
+                fmt.Println("GET")
+                if len(path) == 1 </span><span class="cov0" title="0">{
+                        GetAllHistorias(w, r)
+                        return
+                }</span>
+
+                <span class="cov0" title="0">nombre := path[1]
+                data, errorBD = MethodGet(nombre)</span>
+        <span class="cov0" title="0">case "POST":
+                values, control := parseValuesFromRequest(r)
+                switch control["op"] </span>{
+                <span class="cov0" title="0">case "PATCH":
+                        fmt.Println("PATCH")
+                        fmt.Println(path)
+                        data, errorBD = MethodPatch(values, control["id"])</span>
+                <span class="cov0" title="0">case "DELETE":
+                        fmt.Println("DELETE")
+                        data, errorBD = MethodDelete(control["id"])</span>
+                <span class="cov0" title="0">default:
+                        fmt.Println("POST")
+                        fmt.Println(values)
+                        data, errorBD = MethodPost(values)</span>
+                }
+                /*
+                        case "PATCH":
+                                fmt.Println("PATCH")
+                                id := path[1]
+                                fmt.Println(path)
+                                values, _ := parseValuesFromRequest(r)
+                                data, errorBD = MethodPatch(values, id)
+
+                        case "DELETE":
+                                fmt.Println("DELETE")
+                                id := path[1]
+                                data, errorBD = MethodDelete(id)
+                */
+        <span class="cov0" title="0">default:
+                fmt.Println("DESCONOCIDO")
+                return</span>
+        }
+
+        <span class="cov0" title="0">if errorBD != nil </span><span class="cov0" title="0">{
+                encoder.Encode(*errorBD)
+        }</span><span class="cov0" title="0"> else if data != nil </span><span class="cov0" title="0">{
+                encoder.Encode(*data)
+        }</span><span class="cov0" title="0"> else {
+                encoder.Encode(modelo.Error{Error: "¡Error importante del SERVIDOR!"})
+        }</span>
+}
+
+func parseURL(uri string) []string <span class="cov8" title="1">{
+        uriSplitted := strings.Split(uri, "/")
+        path := make([]string, 0, 10)
+        for _, v := range uriSplitted </span><span class="cov8" title="1">{
+                if v != "" </span><span class="cov8" title="1">{
+                        path = append(path, v)
+                }</span>
+        }
+
+        <span class="cov8" title="1">return path</span>
+}
+
+func MethodGet(nombre string) (*modelo.Historia, *modelo.Error) <span class="cov8" title="1">{
+        var h modelo.Historia
+        err := c.Find(bson.M{"nombre": nombre}).One(&amp;h)
+
+        if err != nil </span><span class="cov8" title="1">{
+                fmt.Printf("Registro %s no encontrado\n", nombre)
+                errorBD := modelo.Error{Error: err.Error()}
+                return nil, &amp;errorBD
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println(h)
+        return &amp;h, nil</span>
+}
+
+func MethodGetByID(id string) (*modelo.Historia, *modelo.Error) <span class="cov8" title="1">{
+        var h modelo.Historia
+        err := c.Find(bson.M{"_id": bson.ObjectIdHex(id)}).One(&amp;h)
+
+        if err != nil </span><span class="cov8" title="1">{
+                fmt.Printf("Registro %s no encontrado\n", id)
+                errorBD := modelo.Error{Error: err.Error()}
+                return nil, &amp;errorBD
+        }</span>
+
+        <span class="cov8" title="1">fmt.Println(h)
+        return &amp;h, nil</span>
+}
+
+func MethodPost(data map[string]interface{}) (*modelo.Historia, *modelo.Error) <span class="cov8" title="1">{
+        nombre := data["nombre"].(string)
+        _, err := MethodGet(nombre)
+        if err != nil </span><span class="cov8" title="1">{
+                err := c.Insert(data)
+                if err != nil </span><span class="cov0" title="0">{
+                        fmt.Println(err)
+                        errorBD := modelo.Error{Error: err.Error()}
+                        return nil, &amp;errorBD
+                }</span>
+        }<span class="cov0" title="0"> else {
+                return nil, &amp;modelo.Error{Error: "Nombre ya existente en la base de datos"}
+        }</span>
+
+        <span class="cov8" title="1">var h modelo.Historia
+        c.Find(data).One(&amp;h)
+        fmt.Println(h)
+        return &amp;h, nil</span>
+}
+
+func MethodPatch(data map[string]interface{}, id string) (*modelo.Historia, *modelo.Error) <span class="cov8" title="1">{
+        h, errorBD := MethodGetByID(id)
+        if errorBD != nil </span><span class="cov8" title="1">{
+                return nil, errorBD
+        }</span>
+
+        <span class="cov8" title="1">nombre := data["nombre"].(string)
+        if h.Nombre != nombre </span><span class="cov8" title="1">{
+                _, errorBD = MethodGet(nombre)
+                if errorBD == nil </span><span class="cov0" title="0">{
+                        return nil, &amp;modelo.Error{Error: "Nombre ya existente en la base de datos"}
+                }</span>
+        }
+
+        <span class="cov8" title="1">err := c.Update(bson.M{"_id": bson.ObjectIdHex(id)}, bson.M{"$set": data})
+        fmt.Println("El id es:", id)
+        if err != nil </span><span class="cov0" title="0">{
+                fmt.Println(err)
+                errorBD := modelo.Error{Error: err.Error()}
+                return nil, &amp;errorBD
+        }</span>
+
+        <span class="cov8" title="1">h, errorBD = MethodGet(nombre)
+
+        return h, errorBD</span>
+}
+
+func MethodDelete(id string) (*modelo.Historia, *modelo.Error) <span class="cov8" title="1">{
+        h, errorBD := MethodGetByID(id)
+        err := c.RemoveId(bson.ObjectIdHex(id))
+        if err != nil </span><span class="cov8" title="1">{
+                fmt.Println(err)
+                errorBD := modelo.Error{Error: err.Error()}
+
+                return nil, &amp;errorBD
+        }</span>
+
+        <span class="cov0" title="0">return h, errorBD</span>
+}
+
+/*func MethodGetByCampos(e *json.Encoder, campos *bson.M, id string) {
+        var data bson.M
+        err := c.Find(bson.M{"_id": id}).Select(campos).One(&amp;data)
+
+        if err != nil {
+                fmt.Printf("Registro %s no encontrado\n", id)
+                errorBD := modelo.Error{Error: err.Error()}
+                e.Encode(errorBD)
+        } else {
+                fmt.Println(data)
+                e.Encode(data)
+        }
+
+}*/
+
+func parseValuesFromRequest(r *http.Request) (map[string]interface{}, map[string]string) <span class="cov8" title="1">{
+        r.ParseForm()
+        control := make(map[string]string, 0)
+        data := make(map[string]interface{}, 0)
+        for k, v := range r.Form </span><span class="cov8" title="1">{
+                switch k </span>{
+                <span class="cov8" title="1">case "coste", "valor":
+                        num, _ := strconv.Atoi(v[0])
+                        data[k] = num</span>
+                <span class="cov8" title="1">case "op", "id":
+                        control[k] = v[0]</span>
+                <span class="cov8" title="1">default:
+                        data[k] = v[0]</span>
+                }
+                /*
+                        fmt.Println("Clave", k)
+                        fmt.Println("Valor", v[0])
+                */
+        }
+
+        <span class="cov8" title="1">return data, control</span>
+}
+</pre>
+		
+		</div>
+	</body>
+	<script>
+	(function() {
+		var files = document.getElementById('files');
+		var visible;
+		files.addEventListener('change', onChange, false);
+		function select(part) {
+			if (visible)
+				visible.style.display = 'none';
+			visible = document.getElementById(part);
+			if (!visible)
+				return;
+			files.value = part;
+			visible.style.display = 'block';
+			location.hash = part;
+		}
+		function onChange() {
+			select(files.value);
+			window.scrollTo(0, 0);
+		}
+		if (location.hash != "") {
+			select(location.hash.substr(1));
+		}
+		if (!visible) {
+			select("file0");
+		}
+	})();
+	</script>
+</html>
